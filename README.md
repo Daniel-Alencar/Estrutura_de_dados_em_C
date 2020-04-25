@@ -1,2 +1,2 @@
 # Estrutura de dados
-Exercícios de AED em C da UNIVASF
+Exercícios da matéria AED em C da UNIVASF
