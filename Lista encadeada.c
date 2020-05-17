@@ -257,7 +257,7 @@ int retornar_elem_LE(CELULA *cabeca,int pos)
 
         ...porque dentro da função o valor de cabeca(por exemplo), pode ser alterado
         (com: cabeca = cabeca->prox por exemplo), porém o valor de cabeca não é alterado de fato com isso,
-        no retorno para a main. Funciona como uma espéccie de "faz de conta que mudou..." dentro da função.
+        no retorno para a main. Funciona como uma espécie de "faz de conta que mudou..." dentro da função.
         */
 
         for(i=0;i<pos;i++){
