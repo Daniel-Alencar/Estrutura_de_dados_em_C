@@ -16,7 +16,8 @@ void soma_racional(RACIONAL *a, RACIONAL *b, RACIONAL *c)
 	c->num = b->den * a->num + a->den * b->num;
 	c->den = b->den * a->den;
 }
+
 main()
 {
-	
+	printf("Hello, World!\n\n");
 }
