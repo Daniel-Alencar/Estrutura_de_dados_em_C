@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<locale.h>
+
 typedef struct
 {
 	int nl;
@@ -11,7 +11,6 @@ typedef struct
 
 main()
 {
-	setlocale(LC_ALL ,"Portuguese");
 	MATRIZ m1,m2,m3;
 	int a, b;
 	
@@ -30,19 +29,19 @@ main()
 	
 	if(!somar_matrizes(&m1,&m2,&m3))
 	{
-		printf("\nA soma das matrizes é igual a:\n");
+		printf("\nA soma das matrizes Ã© igual a:\n");
 		imprimir_matriz(&m3);
 	}
 	
 	if(!subtrair_matrizes(&m1,&m2,&m3))
 	{
-		printf("\nA subtração das matrizes é igual a:\n");
+		printf("\nA subtraÃ§Ã£o das matrizes Ã© igual a:\n");
 		imprimir_matriz(&m3);
 	}
 	
 	if(!multiplicar_matrizes(&m1,&m2,&m3))
 	{
-		printf("\nA multiplicação das matrizes é igual a:\n");
+		printf("\nA multiplicaÃ§Ã£o das matrizes Ã© igual a:\n");
 		imprimir_matriz(&m3);
 	}
 }
@@ -54,7 +53,7 @@ void criar_matriz(int nl, int nc, MATRIZ *p)
 	p->ppe = (int*)malloc(sizeof(int)*p->nl*p->nc);
 	if(!p->ppe)
 	{
-		printf("Não foi possível reservar memória para a matriz\n");
+		printf("Nï¿½o foi possï¿½vel reservar memï¿½ria para a matriz\n");
 		exit(0);
 	}
 }
@@ -95,7 +94,7 @@ int somar_matrizes(MATRIZ *p1, MATRIZ *p2, MATRIZ *p3)
 	}
 	else
 	{
-		printf("A soma entre estas matrizes não é possível...\n");
+		printf("A soma entre estas matrizes nï¿½o ï¿½ possï¿½vel...\n");
 		return 1;
 	}
 		
@@ -117,7 +116,7 @@ int subtrair_matrizes(MATRIZ *p1, MATRIZ *p2, MATRIZ *p3)
 	}
 	else
 	{
-		printf("A subtração entre estas matrizes não é possível...\n");
+		printf("A subtraï¿½ï¿½o entre estas matrizes nï¿½o ï¿½ possï¿½vel...\n");
 		return 1;
 	}
 		
@@ -150,7 +149,7 @@ int multiplicar_matrizes(MATRIZ *p1, MATRIZ *p2, MATRIZ *p3)
 	}
 	else
 	{
-		printf("A multiplicação entre estas matrizes não é possível...\n");
+		printf("A multiplicaï¿½ï¿½o entre estas matrizes nï¿½o ï¿½ possï¿½vel...\n");
 		return 1;
 	}
 }
