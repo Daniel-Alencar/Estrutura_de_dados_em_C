@@ -16,7 +16,19 @@ void multiplicacao_matrizes(MATRIZ *, MATRIZ *, MATRIZ *);
 
 int main() {
     MATRIZ matriz, m1, m2;
-    criar_matriz(2, 2, &m1);
+
+    criar_matriz(2, 3, &m1);
+    imprimir_matriz(&m1);
+    inicializar_matriz(&m1);
+    imprimir_matriz(&m1);
+
+    criar_matriz(3, 2, &m2);
+    imprimir_matriz(&m2);
+    inicializar_matriz(&m2);
+    imprimir_matriz(&m2);
+
+    multiplicacao_matrizes(&m1, &m2, &matriz);
+    imprimir_matriz(&matriz);
 }
 
 void criar_matriz(int linhas, int colunas, MATRIZ *matriz) {
@@ -28,7 +40,7 @@ void criar_matriz(int linhas, int colunas, MATRIZ *matriz) {
         exit(1);
     }
 
-    for(i=0; i < matriz->linhas; i++) {
+    for(i=0; i < linhas; i++) {
         matriz->elementos[i] = (int *) malloc(sizeof(int) * colunas);
         if(!(matriz->elementos[i])) {
             printf("Não foi possível alocar memória\n");
@@ -38,8 +50,14 @@ void criar_matriz(int linhas, int colunas, MATRIZ *matriz) {
     matriz->colunas = colunas;
     matriz->linhas = linhas;
 
-    for(i=0; i<linhas; i++) {
-        for(j=0; j<colunas; j++) {
+    zerar_matriz(matriz);
+}
+
+void zerar_matriz(MATRIZ *matriz) {
+    int i,j;
+
+    for(i=0; i < matriz->linhas; i++) {
+        for(j=0; j < matriz->colunas; j++) {
             matriz->elementos[i][j] = 0;
         }
     }
@@ -48,9 +66,9 @@ void criar_matriz(int linhas, int colunas, MATRIZ *matriz) {
 void imprimir_matriz(MATRIZ *matriz) {
     int i,j;
 
-    for(i=0; i<matriz->linhas; i++) {
+    for(i=0; i < matriz->linhas; i++) {
         printf("\n|");
-        for(j=0; j<matriz->colunas; j++) {
+        for(j=0; j < matriz->colunas; j++) {
             printf("%5i", matriz->elementos[i][j]);
         }
         printf("|");
