@@ -8,6 +8,7 @@ typedef struct {
 }MATRIZ;
 
 void criar_matriz(int, int, MATRIZ *);
+void zerar_matriz(MATRIZ *);
 void imprimir_matriz(MATRIZ *);
 void inicializar_matriz(MATRIZ *);
 void somar_matrizes(MATRIZ *, MATRIZ *, MATRIZ *);
