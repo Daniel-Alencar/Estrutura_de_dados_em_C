@@ -14,11 +14,23 @@ int conversaoParaIndice(int linha, int coluna);
 
 int main() {
     MATRIZ_SIMETRICA matriz;
+    int linha, coluna, i;
 
     criarMatriz(4, &matriz);
     inicializarMatriz(&matriz);
     imprimirMatriz(&matriz);
 
+    for(i=0; i < 10; i++) {
+        char valor;
+
+        printf("Linha da matriz: ");
+        scanf("%i", &linha);
+        printf("Coluna da matriz: ");
+        scanf("%i", &coluna);
+
+        valor = consultaDeElementoDaMatriz(linha, coluna, &matriz);
+        printf("Valor da posição escolhida: %c\n\n", valor);
+    }
 }
 
 void criarMatriz(int ordem, MATRIZ_SIMETRICA *matriz)  {
@@ -39,7 +51,7 @@ void inicializarMatriz(MATRIZ_SIMETRICA *matriz) {
         for(j=0; j < matriz->ordem; j++) {
             if(i >= j) {
                 printf("Matriz[%i][%i]: ", i+1, j+1);
-                scanf(" %c", &matriz->elementos[conversaoParaIndice(i, j)]);
+                scanf(" %c", &matriz->elementos[conversaoParaIndice(i+1, j+1)]);
             }
         }
     }
@@ -65,11 +77,8 @@ char consultaDeElementoDaMatriz(int linha, int coluna, MATRIZ_SIMETRICA *matriz)
     } else {
         return matriz->elementos[conversaoParaIndice(coluna, linha)];
     } 
-    
 }
 
-int conversaoParaIndice(int linha, int coluna) {
-    int indice;
-    indice = (coluna + (((1 + (linha - 1)) * (linha - 1)) / 2)) - 1;
-    return indice;
+int conversaoParaIndice(int linha, int coluna) { // linha e coluna na visão do usuário
+    return (((1 + (linha - 1)) * (linha - 1) / 2) + coluna - 1);
 }
