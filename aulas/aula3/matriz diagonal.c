@@ -2,77 +2,65 @@
 #include<stdlib.h>
 
 typedef struct{
-    int linhas;
-    int colunas;
+    int ordem;
     int *elementos;
-}DIAGONAL_MATRIX;
+}MATRIZ_DIAGONAL;
 
-void criarDiagonalMatrix(int linhas, int colunas, DIAGONAL_MATRIX *matriz);
-void inicializarDiagonalMatrix(DIAGONAL_MATRIX *matriz);
-void imprimirDiagonalMatrix(DIAGONAL_MATRIX *matriz);
-int consultarElementoDaDiagonalMatrix(int linha, int coluna, DIAGONAL_MATRIX *matriz);
+void criarMatriz(int ordem, MATRIZ_DIAGONAL *matriz);
+void inicializarMatriz(MATRIZ_DIAGONAL *matriz);
+void imprimirMatriz(MATRIZ_DIAGONAL *matriz);
+int consultaDeElementoDaMatriz(int linha, int coluna, MATRIZ_DIAGONAL *matriz);
+int conversaoParaIndice(int linha, int coluna);
 
 int main() {
     int i, linha, coluna;
-    DIAGONAL_MATRIX matriz;
+    MATRIZ_DIAGONAL matriz;
 
-    criarDiagonalMatrix(5, 5, &matriz);
-    inicializarDiagonalMatrix(&matriz);
-    imprimirDiagonalMatrix(&matriz);
+    criarMatriz(5, &matriz);
+    inicializarMatriz(&matriz);
+    imprimirMatriz(&matriz);
 
     for(i=0; i<10; i++) {
         int valor;
 
-        printf("Índice i da matriz: ");
+        printf("Linha da matriz: ");
         scanf("%i", &linha);
-        printf("Índice j da matriz: ");
+        printf("Coluna da matriz: ");
         scanf("%i", &coluna);
-        valor = consultarElementoDaDiagonalMatrix(linha, coluna, &matriz);
+        valor = consultaDeElementoDaMatriz(linha, coluna, &matriz);
 
         printf("Valor da posição escolhida: %i\n\n", valor);
     }
 }
 
-void criarDiagonalMatrix(int linhas, int colunas, DIAGONAL_MATRIX *matriz) {
-    if(linhas == colunas) {
-        matriz->elementos = (int *) calloc(linhas * colunas, sizeof(int));
-        if(!matriz->elementos) {
-            printf("Não foi possível alocar espaço para a matriz diagonal\n");
-            exit(0);
-        }
-        matriz->colunas = colunas;
-        matriz->linhas = linhas;
-    } else {
-        printf("É preciso que seja o mesmo número de linhas e de colunas\n");
-    }
-}
+void criarMatriz(int ordem, MATRIZ_DIAGONAL *matriz) {
 
-void inicializarDiagonalMatrix(DIAGONAL_MATRIX *matriz) {
+    matriz->elementos = (int *)calloc(ordem, sizeof(int));
+    if(!matriz->elementos) {
+        printf("Não foi possível alocar espaço para a matriz diagonal\n");
+        exit(1);
+    }
+    matriz->ordem = ordem;
+}
+void inicializarMatriz(MATRIZ_DIAGONAL *matriz) {
     int i;
-    for(i=0; i<matriz->linhas; i++) {
+    for(i=0; i < matriz->ordem; i++) {
         printf("matriz[%i][%i]: ", i+1, i+1);
         scanf("%i", matriz->elementos + i);
     }
 }
-
-void imprimirDiagonalMatrix(DIAGONAL_MATRIX *matriz) {
+void imprimirMatriz(MATRIZ_DIAGONAL *matriz) {
     int i, j;
 
-    for(i=0; i<matriz->linhas; i++) {
+    for(i=0; i < matriz->ordem; i++) {
         printf("| ");
-        for(j=0; j<matriz->colunas; j++) {
-            if(i != j) {
-                printf("%03i ", 0);
-            } else {
-                printf("%03i ", matriz->elementos[i]);
-            }
+        for(j=0; j < matriz->ordem; j++) {
+            printf("%03i ", consultaDeElementoDaMatriz(i+1, j+1, matriz));
         }
         printf("|\n");
     }
 }
-
-int consultarElementoDaDiagonalMatrix(int linha, int coluna, DIAGONAL_MATRIX *matriz) {
-
+int consultaDeElementoDaMatriz(int linha, int coluna, MATRIZ_DIAGONAL *matriz) {
     if(linha != coluna) {
         return 0;
     } else {
