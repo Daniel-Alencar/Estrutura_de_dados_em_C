@@ -21,12 +21,15 @@ int main() {
     imprimirMatriz(&matriz);
 
     for(i=0; i < 10; i++) {
+        int valor;
+
         printf("Linha da matriz: ");
         scanf("%i", &linha);
         printf("Coluna da matriz: ");
         scanf("%i", &coluna);
 
-        printf("matriz[%i][%i]: %i\n\n\n", linha, coluna, consultaDeElementoDaMatriz(linha, coluna, &matriz));
+        valor = consultaDeElementoDaMatriz(linha, coluna, &matriz);
+        printf("Valor da posição escolhida: %i\n\n", valor);
     }
 }
 
@@ -47,8 +50,8 @@ void inicializarMatriz(MATRIZ_TRIANGULAR_INFERIOR *matriz) {
     for(i=0; i < matriz->ordem; i++) {
         for(j=0; j < matriz->ordem; j++) {
             if(i >= j) {
-                printf("Matriz[%i][%i]: ", i, j);
-                scanf("%i", &matriz->elementos[conversaoParaIndice(i, j)]);
+                printf("Matriz[%i][%i]: ", i+1, j+1);
+                scanf("%i", &matriz->elementos[conversaoParaIndice(i+1, j+1)]);
             }
         }
     }
@@ -61,7 +64,7 @@ void imprimirMatriz(MATRIZ_TRIANGULAR_INFERIOR *matriz) {
         printf("| ");
 
         for(j=0; j < matriz->ordem; j++) {
-            printf("%05i ", consultaDeElementoDaMatriz(i, j, matriz));
+            printf("%05i ", consultaDeElementoDaMatriz(i+1, j+1, matriz));
         }
         printf("|\n");
     }
@@ -74,11 +77,8 @@ int consultaDeElementoDaMatriz(int linha, int coluna, MATRIZ_TRIANGULAR_INFERIOR
     } else {
         return 0;
     } 
-    
 }
 
-int conversaoParaIndice(int linha, int coluna) {
-    int indice;
-    indice = (coluna + (((1 + (linha - 1)) * (linha - 1)) / 2)) - 1;
-    return indice;
+int conversaoParaIndice(int linha, int coluna) { // linha e coluna na visão do usuário
+    return (((1 + (linha - 1)) * (linha - 1) / 2) + coluna - 1);
 }
