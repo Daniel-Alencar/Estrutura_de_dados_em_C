@@ -46,14 +46,13 @@ void criarMatriz(int ordem, MATRIZ_TRIANGULAR_SUPERIOR *matriz)  {
 }
 
 void inicializarMatriz(MATRIZ_TRIANGULAR_SUPERIOR *matriz) {
-    int i,j,contador = 0;
+    int i,j;
 
-    for(i=0; i < matriz->ordem; i++) {
-        for(j=0; j < matriz->ordem; j++) {
+    for(j=0; j < matriz->ordem; j++) {
+        for(i=0; i < matriz->ordem; i++) {
             if(j >= i) {
                 printf("Matriz[%i][%i]: ", i+1, j+1);
-                scanf("%i", &matriz->elementos[contador]);
-                contador++;
+                scanf("%i", &matriz->elementos[conversaoParaIndice(i+1, j+1)]);
             }
         }
     }
