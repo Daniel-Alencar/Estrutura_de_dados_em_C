@@ -75,13 +75,13 @@ void imprimirMatriz(MATRIZ_TRIANGULAR_SUPERIOR *matriz) {
 int consultaDeElementoDaMatriz(int linha, int coluna, MATRIZ_TRIANGULAR_SUPERIOR *matriz) {
 
     if(coluna >= linha) {
-        return matriz->elementos[conversaoParaIndice(coluna, linha)];
+        return matriz->elementos[conversaoParaIndice(linha, coluna)];
     } else {
         return 0;
     } 
 }
 
 int conversaoParaIndice(int linha, int coluna) { // linha e coluna na visão do usuário
-    return (((1 + (linha - 1)) * (linha - 1) / 2) + coluna - 1);
+    return (((1 + (coluna - 1)) * (coluna - 1) / 2) + linha - 1);
     // indice na visão do programador
 }
