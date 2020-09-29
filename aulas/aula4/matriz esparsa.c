@@ -49,7 +49,7 @@ void criarMatriz(MATRIZ_ESPARSA *matriz, int linhas, int colunas) {
 }
 
 void atribuirElementoNaMatriz(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna) {
-    int i, pertence = 0, posicaoNoVetor;
+    int i, pertence = 0, posicaoNoVetor = -1;
 
     if(linha < 0 || linha >= matriz->linhas || coluna < 0 || coluna >= matriz->colunas) {
         printf("\n\nO Indice informado ultrapassa as dimensões da matriz\n\n");
@@ -106,16 +106,16 @@ void inserirElemento(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna
 
 void retirarElementoDaMatriz(MATRIZ_ESPARSA *matriz, int posicaoNoVetor) {
     int i;
-    matriz->elementos[posicaoNoVetor] = matriz->elementos[matriz->quantidade - 1];
-
-    matriz->indices[0][posicaoNoVetor] = matriz->indices[0][matriz->quantidade - 1];
-    matriz->indices[1][posicaoNoVetor] = matriz->indices[1][matriz->quantidade - 1];
-    
     matriz->quantidade -= 1;
 
-    // desalocar memória para matriz de indices e para o vetor
+    if(posicaoNoVetor != matriz->quantidade) {
+        matriz->elementos[posicaoNoVetor] = matriz->elementos[matriz->quantidade];
+        matriz->indices[0][posicaoNoVetor] = matriz->indices[0][matriz->quantidade];
+        matriz->indices[1][posicaoNoVetor] = matriz->indices[1][matriz->quantidade];
+    }
+
+    // desalocar memória para matriz de indices e para o vetor elementos
     matriz->elementos = (int *) realloc(matriz->elementos, (matriz->quantidade) * sizeof(int));
-    
     for(i=0; i < 2; i++) {
         matriz->indices[i] = (int *) realloc(matriz->indices[i], (matriz->quantidade) * sizeof(int));
     }
@@ -126,7 +126,7 @@ int consultaDeElementoDaMatriz(MATRIZ_ESPARSA *matriz, int linha, int coluna) {
     
     if(linha < 0 || linha >= matriz->linhas || coluna < 0 || coluna >= matriz->colunas) {
         printf("\n\nO Indice informado ultrapassa as dimensões da matriz\n\n");
-        exit(2);
+        exit(1);
     }
         
     for(j=0; j < matriz->quantidade; j++) {
