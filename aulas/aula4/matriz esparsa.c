@@ -12,14 +12,14 @@ void criarMatriz(MATRIZ_ESPARSA *matriz, int linhas, int colunas);
 void atribuirElementoNaMatriz(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna);
 int consultaDeElementoDaMatriz(MATRIZ_ESPARSA *matriz, int linha, int coluna);
 
+void retirarElementoDaMatriz(MATRIZ_ESPARSA *matriz, int posicaoNoVetor);
+void inserirElemento(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna);
+
 int main() {
     int i, linha, coluna;
     MATRIZ_ESPARSA matriz;
 
     criarMatriz(&matriz, 3, 4);
-    atribuirElementoNaMatriz(&matriz, -14, 1, 1);
-    atribuirElementoNaMatriz(&matriz, 55, 0, 3);
-    atribuirElementoNaMatriz(&matriz, 2, 2, 0);
 
     for(i=0; i<10; i++) {
         int valor;
@@ -35,39 +35,67 @@ int main() {
 }
 
 void criarMatriz(MATRIZ_ESPARSA *matriz, int linhas, int colunas) {
-    int i, linhasDosIndices = 2;
+    int i;
 
     matriz->linhas = linhas;
     matriz->colunas = colunas;
     matriz->quantidade = 0;
 
     matriz->elementos = NULL;
-    matriz->indices = (int **) malloc(sizeof(int*) * linhasDosIndices);
-    for(i=0; i<linhasDosIndices; i++) {
+    matriz->indices = (int **) malloc(sizeof(int*) * 2);
+    for(i=0; i<2; i++) {
         matriz->indices[i] = NULL;
     }
 }
 
 void atribuirElementoNaMatriz(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna) {
-    int i;
+    int i, pertence = 0, posicaoNoVetor;
 
     if(linha < 0 || linha >= matriz->linhas || coluna < 0 || coluna >= matriz->colunas) {
         printf("\n\nO Indice informado ultrapassa as dimensões da matriz\n\n");
-        exit(2);
+        return;
     }
-    
+
+    for(i=0; i<matriz->quantidade; i++) {
+        if((linha == matriz->indices[0][i]) && (coluna == matriz->indices[1][i])) {
+            pertence = 1;
+            posicaoNoVetor = i;
+            break;
+        }
+    }
+
+    if(pertence) {
+        if(elemento) {
+            matriz->elementos[posicaoNoVetor] = elemento;
+        } else {
+            retirarElementoDaMatriz(matriz, posicaoNoVetor);
+        }
+    } else {
+        if(elemento) {
+            inserirElemento(matriz, elemento, linha, coluna);
+        }
+    }
+    return;
+}
+
+void inserirElemento(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna) {
+    int i;
+
+    // Tentativa de alocar espaço para o elemento a ser adicionado e seus indices
     matriz->elementos = (int *) realloc(matriz->elementos, (matriz->quantidade + 1) * sizeof(int));
     if(!matriz->elementos) {
         printf("\n\nNão foi possível alocar mais espaço para o elemento da sua matriz\n\n");
-        exit(1);
+        return;
     }
     for(i=0; i < 2; i++) {
-        matriz->indices[i] = (int*) realloc(matriz->indices[i], (matriz->quantidade + 1) * sizeof(int));
+        matriz->indices[i] = (int *) realloc(matriz->indices[i], (matriz->quantidade + 1) * sizeof(int));
         if(!matriz->indices[i]) {
             printf("\n\nNão foi possível alocar mais espaço para o elemento da sua matriz\n\n");
-            exit(1);
+            return;
         }
     }
+
+    // Só continua se realmente houver conseguido alocar espaço
     matriz->elementos[matriz->quantidade] = elemento;
 
     matriz->indices[0][matriz->quantidade] = linha;
@@ -76,12 +104,30 @@ void atribuirElementoNaMatriz(MATRIZ_ESPARSA *matriz, int elemento, int linha, i
     matriz->quantidade += 1;
 }
 
+void retirarElementoDaMatriz(MATRIZ_ESPARSA *matriz, int posicaoNoVetor) {
+    int i;
+    matriz->elementos[posicaoNoVetor] = matriz->elementos[matriz->quantidade - 1];
+
+    matriz->indices[0][posicaoNoVetor] = matriz->indices[0][matriz->quantidade - 1];
+    matriz->indices[1][posicaoNoVetor] = matriz->indices[1][matriz->quantidade - 1];
+    
+    matriz->quantidade -= 1;
+
+    // desalocar memória para matriz de indices e para o vetor
+    matriz->elementos = (int *) realloc(matriz->elementos, (matriz->quantidade) * sizeof(int));
+    
+    for(i=0; i < 2; i++) {
+        matriz->indices[i] = (int *) realloc(matriz->indices[i], (matriz->quantidade) * sizeof(int));
+    }
+}
+
 int consultaDeElementoDaMatriz(MATRIZ_ESPARSA *matriz, int linha, int coluna) {
     int j;
     
     if(linha < 0 || linha >= matriz->linhas || coluna < 0 || coluna >= matriz->colunas) {
         printf("\n\nO Indice informado ultrapassa as dimensões da matriz\n\n");
         exit(2);
+    }
         
     for(j=0; j < matriz->quantidade; j++) {
         if(matriz->indices[0][j] == linha && matriz->indices[1][j] == coluna) {
