@@ -14,12 +14,29 @@ int consultaDeElementoDaMatriz(MATRIZ_ESPARSA *matriz, int linha, int coluna);
 
 void retirarElementoDaMatriz(MATRIZ_ESPARSA *matriz, int posicaoNoVetor);
 void inserirElemento(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna);
+void imprimirMatriz(MATRIZ_ESPARSA *matriz);
 
 int main() {
     int i, linha, coluna;
     MATRIZ_ESPARSA matriz;
 
     criarMatriz(&matriz, 3, 4);
+
+    atribuirElementoNaMatriz(&matriz, 10, 3, 4);
+    imprimirMatriz(&matriz);
+    
+    atribuirElementoNaMatriz(&matriz, 0, 1, 1);
+    imprimirMatriz(&matriz);
+
+    atribuirElementoNaMatriz(&matriz, 20, 1, 3);
+    imprimirMatriz(&matriz);
+
+    atribuirElementoNaMatriz(&matriz, 30, 1, 3);
+    imprimirMatriz(&matriz);
+
+    atribuirElementoNaMatriz(&matriz, 0, 1, 3);
+    imprimirMatriz(&matriz);
+
 
     for(i=0; i<10; i++) {
         int valor;
@@ -135,4 +152,17 @@ int consultaDeElementoDaMatriz(MATRIZ_ESPARSA *matriz, int linha, int coluna) {
         }
     }
     return 0;
+}
+
+void imprimirMatriz(MATRIZ_ESPARSA *matriz) {
+    int i, j;
+
+    for(i=0; i<matriz->linhas; i++) {
+        printf("\n| ");
+        for(j=0; j<matriz->colunas; j++) {
+            printf("%03i ", consultaDeElementoDaMatriz(matriz, i, j));
+        }
+        printf("|");
+    }
+    printf("\n\n");
 }
