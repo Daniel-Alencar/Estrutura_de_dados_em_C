@@ -51,6 +51,11 @@ void criarMatriz(MATRIZ_ESPARSA *matriz, int linhas, int colunas) {
 void atribuirElementoNaMatriz(MATRIZ_ESPARSA *matriz, int elemento, int linha, int coluna) {
     int i;
 
+    if(linha < 0 || linha >= matriz->linhas || coluna < 0 || coluna >= matriz->colunas) {
+        printf("\n\nO Indice informado ultrapassa as dimensões da matriz\n\n");
+        exit(2);
+    }
+    
     matriz->elementos = (int *) realloc(matriz->elementos, (matriz->quantidade + 1) * sizeof(int));
     if(!matriz->elementos) {
         printf("\n\nNão foi possível alocar mais espaço para o elemento da sua matriz\n\n");
@@ -77,13 +82,11 @@ int consultaDeElementoDaMatriz(MATRIZ_ESPARSA *matriz, int linha, int coluna) {
     if(linha < 0 || linha >= matriz->linhas || coluna < 0 || coluna >= matriz->colunas) {
         printf("\n\nO Indice informado ultrapassa as dimensões da matriz\n\n");
         exit(2);
-    } else {
         
-        for(j=0; j < matriz->quantidade; j++) {
-            if(matriz->indices[0][j] == linha && matriz->indices[1][j] == coluna) {
-                return matriz->elementos[j];
-            }
+    for(j=0; j < matriz->quantidade; j++) {
+        if(matriz->indices[0][j] == linha && matriz->indices[1][j] == coluna) {
+            return matriz->elementos[j];
         }
-        return 0;
     }
+    return 0;
 }
