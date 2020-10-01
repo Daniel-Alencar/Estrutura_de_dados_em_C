@@ -128,11 +128,13 @@ int generateList(LIST *list, int firstNumber, int lastNumber) {
     if(firstNumber > lastNumber) {
         printf("\nError! Invalid range\n\n");
         return 0;
+
     } else {
-        if(lastNumber == firstNumber) {
+        if(firstNumber == lastNumber) {
             createList(list);
             insertElement(list, 0, firstNumber);
             return 1;
+
         } else {
             generateList(list, firstNumber + 1, lastNumber);
             insertElement(list, 0, firstNumber);
