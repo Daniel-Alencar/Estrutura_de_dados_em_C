@@ -16,24 +16,14 @@ int deleteElement(LIST *list, int position);
 void printList(LIST *list);
 int findInList(LIST *list, int value);
 int isOrdered(LIST *list);
-void generateList(LIST *list, int firstNumber, int lastNumber);
+int generateList(LIST *list, int firstNumber, int lastNumber);
 
 int main() {
     LIST list;
     createList(&list);
-
-    insertElement(&list, 0, 14);
-    printList(&list);
-    insertElement(&list, 0, 13);
-    printList(&list);
-    insertElement(&list, 0, 12);
-    printList(&list);
-    insertElement(&list, 0, 11);
-    printList(&list);
-    insertElement(&list, 0, 10);
+    generateList(&list, -3, 5);
     printList(&list);
 
-    printf("\n\n");
     deleteElement(&list, 1);
     printList(&list);
     deleteElement(&list, 2);
@@ -131,8 +121,21 @@ int isOrdered(LIST *list) {
         previous = list->values[i];
     }
     return 1;
-} 
+}
 
-void generateList(LIST *list, int firstNumber, int lastNumber) {
-    
+int generateList(LIST *list, int firstNumber, int lastNumber) {
+
+    if(firstNumber > lastNumber) {
+        printf("\nError! Invalid range\n\n");
+        return 0;
+    } else {
+        if(lastNumber == firstNumber) {
+            createList(list);
+            insertElement(list, 0, firstNumber);
+            return 1;
+        } else {
+            generateList(list, firstNumber + 1, lastNumber);
+            insertElement(list, 0, firstNumber);
+        }
+    }
 }
