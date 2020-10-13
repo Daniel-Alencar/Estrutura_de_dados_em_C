@@ -121,12 +121,13 @@ int deleteElement(LISTA_ENCADEADA_ESTATICA *list, int position) {
         for(i = list->indexOfFirstElement; position > currentPosition; i = list->list[i].next) {
             currentPosition++;
         }
-        aux = list->list[i].next; // 5
+        aux = list->list[i].next;
         list->list[i].next = list->list[aux].next; 
         
         list->list[aux].next = list->indexOfFirstFreeNodo;
         list->indexOfFirstFreeNodo = aux;
     }
+    return 1;
 }
 
 int main() {
