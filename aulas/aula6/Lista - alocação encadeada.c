@@ -89,6 +89,21 @@ void printList(LISTA_ENCADEADA_ESTATICA *list) {
     printf("\n\n");
 }
 
+int returnElement(LISTA_ENCADEADA_ESTATICA *list, int position) {
+    int i, counter = 0;
+
+    if(position < 0 || position >= lengthOfList(list)) {
+        printf("\nPosition isn't valid\n\n");
+        exit(1);
+    }
+    for(
+        i = list->indexOfFirstElement;
+        counter != position;
+        i = list->list[i].next, counter++
+    );
+    return list->list[i].value;
+}
+
 int main() {
     int i;
     LISTA_ENCADEADA_ESTATICA list;
