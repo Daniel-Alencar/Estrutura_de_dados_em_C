@@ -104,6 +104,31 @@ int returnElement(LISTA_ENCADEADA_ESTATICA *list, int position) {
     return list->list[i].value;
 }
 
+int deleteElement(LISTA_ENCADEADA_ESTATICA *list, int position) {
+    if(position < 0 || position >= lengthOfList(list)) {
+        printf("\nPosition isn't valid\n\n");
+        return 0;
+    } 
+    int aux, i, currentPosition = 1;
+    if(!position) {
+        aux = list->indexOfFirstElement;
+        list->indexOfFirstElement = list->list[list->indexOfFirstElement].next;
+
+        list->list[aux].next = list->indexOfFirstFreeNodo;
+        list->indexOfFirstFreeNodo = aux;
+
+    } else {
+        for(i = list->indexOfFirstElement; position > currentPosition; i = list->list[i].next) {
+            currentPosition++;
+        }
+        aux = list->list[i].next; // 5
+        list->list[i].next = list->list[aux].next; 
+        
+        list->list[aux].next = list->indexOfFirstFreeNodo;
+        list->indexOfFirstFreeNodo = aux;
+    }
+}
+
 int main() {
     int i;
     LISTA_ENCADEADA_ESTATICA list;
