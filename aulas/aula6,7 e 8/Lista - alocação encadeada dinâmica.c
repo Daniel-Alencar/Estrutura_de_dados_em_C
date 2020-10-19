@@ -13,6 +13,8 @@ void createList(DYNAMIC_CHAINED_LIST *list);
 int isEmpty(DYNAMIC_CHAINED_LIST list);
 void printList(DYNAMIC_CHAINED_LIST *list);
 
+int isOrdered(DYNAMIC_CHAINED_LIST list);
+int isOrderedWithRecursion(DYNAMIC_CHAINED_LIST list);
 
 int belongToList(DYNAMIC_CHAINED_LIST list, int value);
 int belongToListWithRecursion(DYNAMIC_CHAINED_LIST list, int value);
@@ -35,29 +37,12 @@ int main() {
     int i;int position;
     DYNAMIC_CHAINED_LIST list;
     createList(&list);
-    insertElementWithRecursion(&list, 1, 20);
-    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
+    insertElementWithRecursion(&list, 1, 18);
+    insertElementWithRecursion(&list, 2, 21);
+    insertElementWithRecursion(&list, 1, 19);
 
-    insertElementWithRecursion(&list, 1, 10);
-    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
-
-    insertElementWithRecursion(&list, 1, 5);
-    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
-
-    insertElementWithRecursion(&list, 1, 2);
-    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
-
-    insertElement(&list, 0, 20);
-    insertElement(&list, 0, 10);
-    insertElement(&list, 0, 5);
-    insertElement(&list, 0, 2);
-    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
-    
-    deleteElementWithRecursion(&list, 2);
-    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
-
-    printList(&list);
-    printf("\n%i\n%i\n%i\n\n", belongToListWithRecursion(list, 20), belongToListWithRecursion(list, 5), belongToListWithRecursion(list, 10));
+    printf("\nit is ordered? %i\n", isOrdered(list));
+    printf("it is ordered? %i\n", isOrderedWithRecursion(list));
 }
 
 void createList(DYNAMIC_CHAINED_LIST *list) {
@@ -231,4 +216,24 @@ int belongToListWithRecursion(DYNAMIC_CHAINED_LIST list, int value) {
         return 1;
     }
     return belongToListWithRecursion(list->next, value);
+}
+
+int isOrdered(DYNAMIC_CHAINED_LIST list) {
+    while(list && list->next) {
+        if(list->value > (list->next)->value) {
+            return 0;
+        }
+        list = list->next;
+    }
+    return 1;
+}
+
+int isOrderedWithRecursion(DYNAMIC_CHAINED_LIST list) {
+    if(list && list->next) {
+        if(list->value > (list->next)->value)
+            return 0;
+        return isOrderedWithRecursion(list->next);
+    } else {
+        return 1;
+    }
 }
