@@ -16,6 +16,7 @@ void printList(DYNAMIC_CHAINED_LIST *list);
 
 int belongToList(DYNAMIC_CHAINED_LIST list, int value);
 int belongToListWithRecursion(DYNAMIC_CHAINED_LIST list, int value);
+
 void insertElement(DYNAMIC_CHAINED_LIST *list, int position, int value);
 void insertElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position, int value);
 
@@ -56,7 +57,7 @@ int main() {
     printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
 
     printList(&list);
-    printf("\n%i\n%i\n%i\n\n", belongToList(list, 1), belongToList(list, 3), belongToList(list, 11));
+    printf("\n%i\n%i\n%i\n\n", belongToListWithRecursion(list, 20), belongToListWithRecursion(list, 5), belongToListWithRecursion(list, 10));
 }
 
 void createList(DYNAMIC_CHAINED_LIST *list) {
@@ -213,23 +214,21 @@ int lengthOfListWithRecursion(DYNAMIC_CHAINED_LIST list) {
 }
 
 int belongToList(DYNAMIC_CHAINED_LIST list, int value) {
-    int i;
-    int length = lengthOfList(list);
-    for(i=0; i<length; i++, list = list->next) {
+    while(list) {
         if(list->value == value) {
             return 1;
         }
+        list = list->next;
     }
     return 0;
 }
 
-int belongToList(DYNAMIC_CHAINED_LIST list, int value) {
-    int i;
-    int length = lengthOfList(list);
-    for(i=0; i<length; i++, list = list->next) {
-        if(list->value == value) {
-            return 1;
-        }
+int belongToListWithRecursion(DYNAMIC_CHAINED_LIST list, int value) {
+    if(!list) {
+        return 0;
     }
-    return 0;
+    if(list->value == value) {
+        return 1;
+    }
+    return belongToListWithRecursion(list->next, value);
 }
