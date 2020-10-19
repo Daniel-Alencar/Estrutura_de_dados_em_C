@@ -11,37 +11,52 @@ typedef NODO *DYNAMIC_CHAINED_LIST;
 
 void createList(DYNAMIC_CHAINED_LIST *list);
 int isEmpty(DYNAMIC_CHAINED_LIST list);
-int lengthOfList(DYNAMIC_CHAINED_LIST list);
 void printList(DYNAMIC_CHAINED_LIST *list);
 
+
+int belongToList(DYNAMIC_CHAINED_LIST list, int value);
+int belongToListWithRecursion(DYNAMIC_CHAINED_LIST list, int value);
 void insertElement(DYNAMIC_CHAINED_LIST *list, int position, int value);
 void insertElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position, int value);
+
 int returnElementWithRecursion(DYNAMIC_CHAINED_LIST list, int position);
+
 void deleteElement(DYNAMIC_CHAINED_LIST *list, int position);
 void deleteElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position);
+
 void brokeList(DYNAMIC_CHAINED_LIST list);
-void brokeListWithRecursion(DYNAMIC_CHAINED_LIST *list);
+void brokeListWithRecursion(DYNAMIC_CHAINED_LIST list);
 
-
-
+int lengthOfList(DYNAMIC_CHAINED_LIST list);
+int lengthOfListWithRecursion(DYNAMIC_CHAINED_LIST list);
 
 int main() {
     int i;int position;
     DYNAMIC_CHAINED_LIST list;
     createList(&list);
     insertElementWithRecursion(&list, 1, 20);
+    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
+
     insertElementWithRecursion(&list, 1, 10);
+    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
+
     insertElementWithRecursion(&list, 1, 5);
+    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
+
     insertElementWithRecursion(&list, 1, 2);
+    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
+
     insertElement(&list, 0, 20);
     insertElement(&list, 0, 10);
     insertElement(&list, 0, 5);
     insertElement(&list, 0, 2);
+    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
+    
+    deleteElementWithRecursion(&list, 2);
+    printf("Tamanho: %i\n\n", lengthOfListWithRecursion(list));
 
     printList(&list);
-    brokeListWithRecursion(&list);
-    printList(&list);
-    
+    printf("\n%i\n%i\n%i\n\n", belongToList(list, 1), belongToList(list, 3), belongToList(list, 11));
 }
 
 void createList(DYNAMIC_CHAINED_LIST *list) {
@@ -169,13 +184,10 @@ void deleteElement(DYNAMIC_CHAINED_LIST *list, int position) {
     }
 }
 
-void brokeListWithRecursion(DYNAMIC_CHAINED_LIST *list) {
-    if((*list) == NULL) {
-        return;
-    } else {
-        brokeListWithRecursion(&((*list)->next));
-        free((*list));
-        *list = NULL;
+void brokeListWithRecursion(DYNAMIC_CHAINED_LIST list) {
+    if(!list) {
+        brokeListWithRecursion(list->next);
+        free(list);
     }
 }
 
@@ -187,4 +199,37 @@ void brokeList(DYNAMIC_CHAINED_LIST list) {
         list = list->next;
         free(aux);
     }
+}
+
+int lengthOfListWithRecursion(DYNAMIC_CHAINED_LIST list) {
+    int counter = 0;
+    if(!list) {
+        return counter;
+    } else {
+        counter = lengthOfListWithRecursion(list->next);
+        counter++;
+        return counter;
+    }
+}
+
+int belongToList(DYNAMIC_CHAINED_LIST list, int value) {
+    int i;
+    int length = lengthOfList(list);
+    for(i=0; i<length; i++, list = list->next) {
+        if(list->value == value) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int belongToList(DYNAMIC_CHAINED_LIST list, int value) {
+    int i;
+    int length = lengthOfList(list);
+    for(i=0; i<length; i++, list = list->next) {
+        if(list->value == value) {
+            return 1;
+        }
+    }
+    return 0;
 }
