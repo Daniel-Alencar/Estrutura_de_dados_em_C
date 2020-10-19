@@ -40,9 +40,64 @@ int generateList(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement);
 int generateListWithRecursion(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement);
 
 int main() {
-    int i;int position;
+    int number, position;
+    char option;
     DYNAMIC_CHAINED_LIST list;
-    generateListWithRecursion(&list, -60, -60);
+    createList(&list);
+    printf("Lista criada!!!\n");
+    
+    printf("Deseja Adicionar[Y/n]? ");
+    scanf(" %c", &option);
+
+    if(option == 'Y' || option == 'y') {
+        do {
+            printf("Valor para adicionar: ");
+            scanf("%i", &number);
+            printf("Posição que quer colocar: ");
+            scanf("%i", &position);
+            insertElementWithRecursion(&list, position, number);
+
+            printf("Deseja continuar adicionando[Y/n]? ");
+            setbuf(stdin, NULL);
+            scanf(" %c", &option);
+
+        } while(option == 'Y' || option == 'y');
+    }
+
+    printf("Deseja remover[Y/n]? ");
+    setbuf(stdin, NULL);
+    scanf(" %c", &option);
+    
+    if(option == 'Y' || option == 'y') {
+        do {
+            printf("Posição que quer remover: ");
+            scanf("%i", &position);
+            deleteElementWithRecursion(&list, position);
+
+            printf("Deseja continuar removendo[Y/n]? ");
+            setbuf(stdin, NULL);
+            scanf(" %c", &option);
+
+        } while(option == 'Y' || option == 'y');
+    }
+
+    printf("Deseja consultar um elemento[Y/n]? ");
+    setbuf(stdin, NULL);
+    scanf(" %c", &option);
+
+    if(option == 'Y' || option == 'y') {
+        do {
+            printf("Posição que quer consultar: ");
+            scanf("%i", &position);
+            printf("Position of your element: %03i\n", returnElementWithRecursion(list, position));
+
+            printf("Deseja continuar consultando[Y/n]? ");
+            setbuf(stdin, NULL);
+            scanf(" %c", &option);
+
+        } while(option == 'Y' || option == 'y');
+    }
+    printf("Aqui está a sua lista!!!\n");
     printList(&list);
 }
 
