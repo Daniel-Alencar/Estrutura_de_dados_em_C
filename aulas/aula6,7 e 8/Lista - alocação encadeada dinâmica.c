@@ -42,7 +42,7 @@ int generateListWithRecursion(DYNAMIC_CHAINED_LIST *list, int firstElement, int 
 int main() {
     int i;int position;
     DYNAMIC_CHAINED_LIST list;
-    generateList(&list, -90, -60);
+    generateListWithRecursion(&list, -60, -60);
     printList(&list);
 }
 
@@ -259,10 +259,10 @@ int generateListWithRecursion(DYNAMIC_CHAINED_LIST *list, int firstElement, int 
     } else {
         if(firstElement == lastElement) {
             createList(list);
-            insertElementWithRecursion(list, 1, lastElement);
+            insertElementWithRecursion(list, 1, firstElement);
         } else {
-            insertElementWithRecursion(list, 1, lastElement);
-            generateListWithRecursion(list, firstElement, lastElement - 1);
+            generateListWithRecursion(list, firstElement + 1, lastElement);
+            insertElementWithRecursion(list, 1, firstElement);
         }
     }
     return 1;
