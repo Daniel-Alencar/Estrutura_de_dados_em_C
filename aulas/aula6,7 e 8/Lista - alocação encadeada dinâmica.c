@@ -13,6 +13,9 @@ void createList(DYNAMIC_CHAINED_LIST *list);
 int isEmpty(DYNAMIC_CHAINED_LIST list);
 void printList(DYNAMIC_CHAINED_LIST *list);
 
+
+
+
 int isOrdered(DYNAMIC_CHAINED_LIST list);
 int isOrderedWithRecursion(DYNAMIC_CHAINED_LIST list);
 
@@ -33,16 +36,14 @@ void brokeListWithRecursion(DYNAMIC_CHAINED_LIST list);
 int lengthOfList(DYNAMIC_CHAINED_LIST list);
 int lengthOfListWithRecursion(DYNAMIC_CHAINED_LIST list);
 
+int generateList(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement);
+int generateListWithRecursion(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement);
+
 int main() {
     int i;int position;
     DYNAMIC_CHAINED_LIST list;
-    createList(&list);
-    insertElementWithRecursion(&list, 1, 18);
-    insertElementWithRecursion(&list, 2, 21);
-    insertElementWithRecursion(&list, 1, 19);
-
-    printf("\nit is ordered? %i\n", isOrdered(list));
-    printf("it is ordered? %i\n", isOrderedWithRecursion(list));
+    generateList(&list, -90, -60);
+    printList(&list);
 }
 
 void createList(DYNAMIC_CHAINED_LIST *list) {
@@ -236,4 +237,33 @@ int isOrderedWithRecursion(DYNAMIC_CHAINED_LIST list) {
     } else {
         return 1;
     }
+}
+
+int generateList(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement) {
+    if(firstElement > lastElement) {
+        printf("\nError! Invalid range\n\n");
+        return 0;
+    }
+    createList(list);
+    while(lastElement >= firstElement) {
+        insertElementWithRecursion(list, 1, lastElement);
+        lastElement--;
+    }
+    return 1;
+}
+
+int generateListWithRecursion(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement) {
+    if(firstElement > lastElement) {
+        printf("\nError! Invalid range\n\n");
+        return 0;
+    } else {
+        if(firstElement == lastElement) {
+            createList(list);
+            insertElementWithRecursion(list, 1, lastElement);
+        } else {
+            insertElementWithRecursion(list, 1, lastElement);
+            generateListWithRecursion(list, firstElement, lastElement - 1);
+        }
+    }
+    return 1;
 }
