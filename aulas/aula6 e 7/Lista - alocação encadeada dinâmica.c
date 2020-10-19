@@ -12,6 +12,8 @@ typedef NODO *DYNAMIC_CHAINED_LIST;
 void createList(DYNAMIC_CHAINED_LIST *list);
 int isEmpty(DYNAMIC_CHAINED_LIST list);
 int lengthOfList(DYNAMIC_CHAINED_LIST list);
+void printList(DYNAMIC_CHAINED_LIST *list);
+
 void insertElement(DYNAMIC_CHAINED_LIST *list, int position, int value);
 void insertElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position, int value);
 int returnElementWithRecursion(DYNAMIC_CHAINED_LIST list, int position);
@@ -19,7 +21,8 @@ void deleteElement(DYNAMIC_CHAINED_LIST *list, int position);
 void deleteElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position);
 void brokeList(DYNAMIC_CHAINED_LIST list);
 void brokeListWithRecursion(DYNAMIC_CHAINED_LIST *list);
-void printList(DYNAMIC_CHAINED_LIST *list);
+
+
 
 
 int main() {
