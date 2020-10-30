@@ -10,10 +10,16 @@ typedef NODO *ORDERED_LINKED_LIST;
 void insertElement(ORDERED_LINKED_LIST list, int value);
 void insertElement2(ORDERED_LINKED_LIST list, int value);
 void insertElementWithRecursion(ORDERED_LINKED_LIST list, int value);
+
 int returnElement(ORDERED_LINKED_LIST list, int position);
 int returnElementWithRecursion(ORDERED_LINKED_LIST list, int position);
+
 void deleteElement(ORDERED_LINKED_LIST list, int position);
+void deleteElement2(ORDERED_LINKED_LIST list, int position);
+void deleteElementWithRecursion(ORDERED_LINKED_LIST list, int position);
+
 void destroyList(ORDERED_LINKED_LIST list);
+void destroyListWithRecursion(ORDERED_LINKED_LIST list);
 
 void createList(ORDERED_LINKED_LIST *list);
 int isEmpty(ORDERED_LINKED_LIST list);
@@ -27,23 +33,52 @@ ORDERED_LINKED_LIST concatenateList2(ORDERED_LINKED_LIST list1, ORDERED_LINKED_L
 
 int main() {
     ORDERED_LINKED_LIST list1, list2;
+    int i;
     
     createList(&list1);
-    insertElement(list1, 10);
-    insertElement(list1, 7);
-    insertElement(list1, 56);
-    insertElement(list1, 12);
-    insertElement(list1, 22);
-    insertElement(list1, 31);
-    insertElement(list1, 56);
-    insertElement(list1, 56);
-    insertElement(list1, 14);
-    insertElement(list1, -67);
+    insertElement2(list1, 13);
+    insertElement2(list1, 7);
+    insertElement2(list1, 56);
+    insertElement2(list1, 12);
+    insertElement2(list1, 20);
+    insertElement2(list1, -31);
+    insertElement2(list1, 56);
+    insertElement2(list1, 56);
+    insertElement2(list1, 14);
+    insertElement2(list1, -67);
+    printf("First list: ");
     printList(list1);
 
-    for(int i=1; i<=10; i++) {
-        printf("%i\n", returnElement(list1, i));
+    createList(&list2);
+    insertElement2(list2, 10);
+    insertElement2(list2, 20);
+    insertElement2(list2, 30);
+    insertElement2(list2, 40);
+    insertElement2(list2, 50);
+    insertElement2(list2, 60);
+    insertElement2(list2, 70);
+    insertElement2(list2, 80);
+    insertElement2(list2, 90);
+    insertElement2(list2, 100);
+    printf("Second list: ");
+    printList(list2);
+
+    deleteElement2(list1, 1);
+    deleteElement2(list1, 2);
+    deleteElement2(list1, 3);
+    deleteElement2(list1, 4);
+    printf("First list (after deleted): ");
+    printList(list1);
+
+    printf("return elements from list one: ");
+    for(i=6; i>0; i--) {
+        printf("%i...", returnElement(list1, i));
     }
+    puts("\n");
+
+    concatenateList(list1, list2);
+    printf("First list (after concatenate): ");
+    printList(list1);    
 }
 
 void createList(ORDERED_LINKED_LIST *list) {
@@ -81,20 +116,26 @@ void insertElement(ORDERED_LINKED_LIST list, int value) {
     list->next = alocado;
 }
 
-void printList(ORDERED_LINKED_LIST list) {
-    for(list = list->next; list; list = list->next) {
-        printf("%i...", list->value);
-    }
-    printf("\n\n");
+void insertElement2(ORDERED_LINKED_LIST list, int value) {
+    insertElementWithRecursion(list, value);
+    list->value++;
 }
 
-int returnElement(ORDERED_LINKED_LIST list, int position) {
-    if(position < 1 || position > lengthOfList(list)) {
-        printf("\nIsn't valid\n");
-        exit(2);
+void insertElementWithRecursion(ORDERED_LINKED_LIST list, int value) {
+
+    if((list->next) && (list->next)->value < value) {
+        insertElementWithRecursion(list->next, value);
+    } else {
+        NODO *alocado;
+        alocado = (NODO *)malloc(sizeof(NODO));
+        if(!alocado) {
+            printf("\nUnfortunately, there is not store enough in list\n");
+            exit(1);
+        }
+        alocado->value = value;
+        alocado->next = list->next;
+        list->next = alocado;
     }
-    for(; position--; list = list->next);
-    return list->value;
 }
 
 void deleteElement(ORDERED_LINKED_LIST list, int position) {
@@ -111,10 +152,43 @@ void deleteElement(ORDERED_LINKED_LIST list, int position) {
     list->next = aux;
 }
 
-void destroyList(ORDERED_LINKED_LIST list) {
-    while(list) {
-        free(list);
-        list = list->next;
+void deleteElement2(ORDERED_LINKED_LIST list, int position) {
+    deleteElementWithRecursion(list, position);
+    list->value--;
+}
+
+void deleteElementWithRecursion(ORDERED_LINKED_LIST list, int position) {
+    if(position < 1 || position > lengthOfList(list)) {
+        printf("\nIsn't valid\n");
+        exit(2);
+    }
+    if(position == 1) {
+        NODO *aux = (list->next)->next;
+        free(list->next);
+        list->next = aux;
+    } else {
+        deleteElementWithRecursion(list->next, position - 1);
+    }
+}
+
+int returnElement(ORDERED_LINKED_LIST list, int position) {
+    if(position < 1 || position > lengthOfList(list)) {
+        printf("\nIsn't valid\n");
+        exit(2);
+    }
+    for(; position--; list = list->next);
+    return list->value;
+}
+
+int returnElementWithRecursion(ORDERED_LINKED_LIST list, int position) {
+    if(position < 1 || position > lengthOfList(list)) {
+        printf("\nIsn't valid\n");
+        exit(2);
+    }
+    if(position == 1) {
+        return (list->next)->value;
+    } else {
+        returnElementWithRecursion(list->next, position-1);
     }
 }
 
@@ -159,36 +233,24 @@ ORDERED_LINKED_LIST concatenateList2(ORDERED_LINKED_LIST list1, ORDERED_LINKED_L
     return newList;
 }
 
-void insertElementWithRecursion(ORDERED_LINKED_LIST list, int value) {
-
-    if((list->next) && (list->next)->value < value) {
-        insertElementWithRecursion(list->next, value);
-    } else {
-        NODO *alocado;
-        alocado = (NODO *)malloc(sizeof(NODO));
-        if(!alocado) {
-            printf("\nUnfortunately, there is not store enough in list\n");
-            exit(1);
-        }
-        alocado->value = value;
-        alocado->next = list->next;
-        list->next = alocado;
+void destroyList(ORDERED_LINKED_LIST list) {
+    while(list) {
+        NODO *aux = list->next;
+        free(list);
+        list = aux;
     }
 }
 
-void insertElement2(ORDERED_LINKED_LIST list, int value) {
-    insertElementWithRecursion(list, value);
-    list->value++;
+void destroyListWithRecursion(ORDERED_LINKED_LIST list) {
+    if(list) {
+        destroyListWithRecursion(list->next);
+        free(list);
+    }
 }
 
-int returnElementWithRecursion(ORDERED_LINKED_LIST list, int position) {
-    if(position < 1 || position > lengthOfList(list)) {
-        printf("\nIsn't valid\n");
-        exit(2);
+void printList(ORDERED_LINKED_LIST list) {
+    for(list = list->next; list; list = list->next) {
+        printf("%i...", list->value);
     }
-    if(position == 1) {
-        return (list->next)->value;
-    } else {
-        returnElementWithRecursion(list->next, position-1);
-    }
+    printf("\n\n");
 }
