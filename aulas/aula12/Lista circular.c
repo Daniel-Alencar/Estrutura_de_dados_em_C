@@ -13,9 +13,13 @@ void insertElement(CIRCULAR_LIST *list, int value, int position);
 int returnElement(CIRCULAR_LIST list, int position);
 void deleteElement(CIRCULAR_LIST *list, int position);
 void destroyList(CIRCULAR_LIST list);
+void printList(CIRCULAR_LIST list);
 
 int main() {
-
+    CIRCULAR_LIST list;
+    createList(&list);
+    insertElement(&list, 12, 1);
+    printList(list);
 }
 
 void createList(CIRCULAR_LIST *list) {
@@ -53,19 +57,24 @@ void insertElement(CIRCULAR_LIST *list, int value, int position) {
     }
     alocado->value = value;
     
-    if(position == 1 || position == (lengthOfList(*list) + 1)) {
+    if(position == 1 && (*list) == NULL) {
+        alocado->next = alocado;
+        (*list) = alocado;
+
+    } else if(position == (lengthOfList(*list) + 1)) {
         alocado->next = (*list)->next;
         (*list)->next = alocado;
-
-        if(position == (lengthOfList(*list) + 1)) {
-            (*list) = (*list)->next;
-        }
+        (*list) = alocado;
     } else {
         int i;
         for(i=1, aux = (*list); i<position; i++) {
             aux = aux->next;
         }
-        alocado = aux->next;
+        alocado->next = aux->next;
         aux->next = alocado;
     }
+}
+
+void printList(CIRCULAR_LIST list) {
+    
 }
