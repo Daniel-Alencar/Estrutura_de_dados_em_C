@@ -42,7 +42,7 @@ int lengthOfList(CIRCULAR_LIST list) {
 void insertElement(CIRCULAR_LIST *list, int value, int position) {
     NODO *aux,*aux1, *alocado;
 
-    if(position < 1 || position > (lengthOfList(list) + 1)) {
+    if(position < 1 || position > (lengthOfList(*list) + 1)) {
         printf("\nPosition isn't valid\n");
         exit(2);
     }
@@ -53,9 +53,13 @@ void insertElement(CIRCULAR_LIST *list, int value, int position) {
     }
     alocado->value = value;
     
-    if(position == 1) {
+    if(position == 1 || position == (lengthOfList(*list) + 1)) {
         alocado->next = (*list)->next;
         (*list)->next = alocado;
+
+        if(position == (lengthOfList(*list) + 1)) {
+            (*list) = (*list)->next;
+        }
     } else {
         int i;
         for(i=1, aux = (*list); i<position; i++) {
@@ -64,5 +68,4 @@ void insertElement(CIRCULAR_LIST *list, int value, int position) {
         alocado = aux->next;
         aux->next = alocado;
     }
-    // falta só a implementação de inserção na última posição
 }
