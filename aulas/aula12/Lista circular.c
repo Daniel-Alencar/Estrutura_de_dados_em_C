@@ -61,7 +61,7 @@ void insertElement(CIRCULAR_LIST *list, int value, int position) {
         alocado->next = alocado;
         (*list) = alocado;
 
-    } else if(position == (lengthOfList(*list) + 1)) {
+    } else if (position == (lengthOfList(*list) + 1)) {
         alocado->next = (*list)->next;
         (*list)->next = alocado;
         (*list) = alocado;
