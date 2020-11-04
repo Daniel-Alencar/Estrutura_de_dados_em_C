@@ -19,9 +19,20 @@ int main() {
     CIRCULAR_LIST list;
     createList(&list);
     insertElement(&list, 5, 1);
+    insertElement(&list, 6, 1);
+    insertElement(&list, 10, 1);
+    insertElement(&list, 1, 1);
+    insertElement(&list, 4, 1);
 
     printList(list);
     printf("Length: %d\n%s\n", lengthOfList(list), isEmpty(list) ? "Is empty" : "Isn't empty");
+
+    printf("Return Element: %i\n", returnElement(list, 2));
+    printf("Return Element: %i\n", returnElement(list, 5));
+    printf("Return Element: %i\n", returnElement(list, 1));
+    printf("Return Element: %i\n", returnElement(list, 3));
+    printf("Return Element: %i\n", returnElement(list, 4));
+    printf("Return Element: %i\n", returnElement(list, 6));
 }
 
 void createList(CIRCULAR_LIST *list) {
@@ -46,9 +57,10 @@ int lengthOfList(CIRCULAR_LIST list) {
 }
 
 void insertElement(CIRCULAR_LIST *list, int value, int position) {
-    NODO *aux,*aux1, *alocado;
+    NODO *aux, *alocado;
+    int length = lengthOfList(*list);
 
-    if(position < 1 || position > (lengthOfList(*list) + 1)) {
+    if(position < 1 || position > (length + 1)) {
         printf("\nPosition isn't valid\n");
         exit(2);
     }
@@ -59,11 +71,11 @@ void insertElement(CIRCULAR_LIST *list, int value, int position) {
     }
     alocado->value = value;
     
-    if(position == 1 && (*list) == NULL) {
+    if((*list) == NULL) {
         alocado->next = alocado;
         (*list) = alocado;
 
-    } else if (position == (lengthOfList(*list) + 1)) {
+    } else if (position == (length + 1)) {
         alocado->next = (*list)->next;
         (*list)->next = alocado;
         (*list) = alocado;
@@ -86,4 +98,19 @@ void printList(CIRCULAR_LIST list) {
         }
     }
     printf("\n\n");
+}
+
+int returnElement(CIRCULAR_LIST list, int position) {
+    int length = lengthOfList(list);
+    if(position < 1 || position > length) {
+        printf("\nPosition isn't valid\n");
+        exit(2);
+    }
+    if(position == length) {
+        return list->value;
+    } else {
+        int i;
+        for(list = list->next, i=1; position > i; list = list->next, i++);
+        return list->value;
+    }
 }
