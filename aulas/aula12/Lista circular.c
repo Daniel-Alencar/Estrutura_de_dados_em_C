@@ -32,7 +32,14 @@ int main() {
     printf("Return Element: %i\n", returnElement(list, 1));
     printf("Return Element: %i\n", returnElement(list, 3));
     printf("Return Element: %i\n", returnElement(list, 4));
-    printf("Return Element: %i\n", returnElement(list, 6));
+
+    for(int i = 0; i < 5; i++) {
+        int position;
+        printf("Delete element at position: ");
+        scanf("%d", &position);
+        deleteElement(&list, position);
+        printList(list);
+    }
 }
 
 void createList(CIRCULAR_LIST *list) {
@@ -106,11 +113,32 @@ int returnElement(CIRCULAR_LIST list, int position) {
         printf("\nPosition isn't valid\n");
         exit(2);
     }
-    if(position == length) {
-        return list->value;
-    } else {
+    if(position != length) {
         int i;
         for(list = list->next, i=1; position > i; list = list->next, i++);
-        return list->value;
+    }
+    return list->value;
+}
+
+void deleteElement(CIRCULAR_LIST *list, int position) {
+    int length = lengthOfList(*list);
+    CIRCULAR_LIST aux, aux1;
+
+    if(position < 1 || position > length) {
+        printf("\nPosition isn't valid\n");
+        exit(2);
+    }
+    if(length == 1) {
+        free(*list);
+        *list = NULL;
+    } else {
+        int i = position;
+        for(aux = (*list);--position; aux = aux->next);
+        aux1 = aux->next;
+        aux->next = aux1->next;
+        free(aux1);
+
+        if(i == length)
+            (*list) = aux;
     }
 }
