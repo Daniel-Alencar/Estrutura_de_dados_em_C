@@ -19,6 +19,17 @@ int main() {
     CIRCULAR_LIST list;
     createList(&list);
     insertElement(&list, 12, 1);
+    insertElement(&list, 13, 2);
+    insertElement(&list, 14, 3);
+    insertElement(&list, 15, 4);
+    insertElement(&list, 16, 5);
+    insertElement(&list, 17, 6);
+
+    insertElement(&list, 51, 3);
+    insertElement(&list, 50, 3);
+    insertElement(&list, 49, 3);
+
+    insertElement(&list, 49, 0);
     printList(list);
 }
 
@@ -76,5 +87,10 @@ void insertElement(CIRCULAR_LIST *list, int value, int position) {
 }
 
 void printList(CIRCULAR_LIST list) {
-    
+    NODO *aux = list->next;
+    printf("%i...", aux->value);
+    for(aux = aux->next; aux != list->next; aux = aux->next) {
+        printf("%i...", aux->value);
+    }
+    printf("\n\n");
 }
