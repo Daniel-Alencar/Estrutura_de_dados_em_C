@@ -27,19 +27,14 @@ int main() {
     printList(list);
     printf("Length: %d\n%s\n", lengthOfList(list), isEmpty(list) ? "Is empty" : "Isn't empty");
 
-    printf("Return Element: %i\n", returnElement(list, 2));
+    printf("Return Element: %i\n", returnElement(list, 1));
     printf("Return Element: %i\n", returnElement(list, 5));
     printf("Return Element: %i\n", returnElement(list, 1));
     printf("Return Element: %i\n", returnElement(list, 3));
     printf("Return Element: %i\n", returnElement(list, 4));
 
-    for(int i = 0; i < 5; i++) {
-        int position;
-        printf("Delete element at position: ");
-        scanf("%d", &position);
-        deleteElement(&list, position);
-        printList(list);
-    }
+    destroyList(list);
+    printList(list);
 }
 
 void createList(CIRCULAR_LIST *list) {
@@ -122,7 +117,6 @@ int returnElement(CIRCULAR_LIST list, int position) {
 
 void deleteElement(CIRCULAR_LIST *list, int position) {
     int length = lengthOfList(*list);
-    CIRCULAR_LIST aux, aux1;
 
     if(position < 1 || position > length) {
         printf("\nPosition isn't valid\n");
@@ -132,13 +126,29 @@ void deleteElement(CIRCULAR_LIST *list, int position) {
         free(*list);
         *list = NULL;
     } else {
+        CIRCULAR_LIST aux, aux1;
         int i = position;
-        for(aux = (*list);--position; aux = aux->next);
+
+        for(aux = (*list);--i; aux = aux->next);
         aux1 = aux->next;
         aux->next = aux1->next;
         free(aux1);
 
-        if(i == length)
+        if(position == length)
             (*list) = aux;
+    }
+}
+
+void destroyList(CIRCULAR_LIST list) {
+    NODO *aux;
+    
+    if(list) {
+        do {
+            aux = list->next;
+            list->next = NULL;
+            free(list);
+            list = aux;
+
+        } while(list);
     }
 }
