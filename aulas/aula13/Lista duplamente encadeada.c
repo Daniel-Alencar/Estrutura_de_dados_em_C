@@ -15,6 +15,7 @@ void printList(DOUBLY_LINKED_LIST list);
 int returnElement(DOUBLY_LINKED_LIST list, int position);
 void deleteElement(DOUBLY_LINKED_LIST *list, int position);
 void destroyList(DOUBLY_LINKED_LIST list);
+void reverseList(DOUBLY_LINKED_LIST *list);
 
 int main() {
     DOUBLY_LINKED_LIST list;
@@ -24,7 +25,6 @@ int main() {
     insertElement(&list, 42, 3);
     insertElement(&list, 82, 4);
     insertElement(&list, -2, 2);
-    insertElement(&list, -32, 3);
     printList(list);
 
     printf("%d\n", returnElement(list, 3));
@@ -40,8 +40,8 @@ int main() {
     deleteElement(&list, 2);
     printList(list);
 
-    destroyList(list);
-    createList(&list);
+    reverseList(&list);
+    printList(list);
 }
 
 void createList(DOUBLY_LINKED_LIST *list) {
@@ -143,5 +143,23 @@ void destroyList(DOUBLY_LINKED_LIST list) {
         aux = list->next;
         free(list);
         list = aux;
+    }
+}
+
+void reverseList(DOUBLY_LINKED_LIST *list) {
+    NODO *aux, *aux1;
+    int atual = 0;
+
+    for(aux = (*list); aux->next; aux = aux->next);
+    aux1 = (*list);
+    
+    while(atual < lengthOfList(*list) / 2) {
+        int value = aux1->value;
+        aux1->value = aux->value;
+        aux->value = value;
+
+        aux1 = aux1->next;
+        aux = aux->previous;
+        atual++;
     }
 }
