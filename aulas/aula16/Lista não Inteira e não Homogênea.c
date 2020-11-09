@@ -124,18 +124,7 @@ void printList(HETEROGENEOUS_LIST list) {
     if(list) {
         NODO *aux = list->next;
         printf("[");
-        if(aux->type == 1) {
-            printf("\n\t%d", aux->VALUE.intValue);
-        } else if(aux->type == 2) {
-            printf("\n\t%f", aux->VALUE.floatValue);
-        } else if(aux->type == 3) {
-            printf("\n\t%s", aux->VALUE.stringValue);
-        } else {
-            printf("Error! Type not recognized");
-            exit(1);
-        }
-
-        for(aux = aux->next; aux != list->next; aux = aux->next) {
+        do {
             if(aux->type == 1) {
                 printf("\n\t%d", aux->VALUE.intValue);
             } else if(aux->type == 2) {
@@ -146,7 +135,10 @@ void printList(HETEROGENEOUS_LIST list) {
                 printf("Error! Type not recognized");
                 exit(1);
             }
-        }
+            aux = aux->next;
+
+        } while(aux != list->next);
+        
         printf("\n]\n");
     } else {
         printf("[]\n");
