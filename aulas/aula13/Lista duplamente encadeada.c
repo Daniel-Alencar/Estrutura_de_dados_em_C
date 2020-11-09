@@ -27,18 +27,15 @@ int main() {
     insertElement(&list, -2, 2);
     printList(list);
 
-    printf("%d\n", returnElement(list, 3));
-    printf("%d\n", returnElement(list, 1));
-    printf("%d\n", returnElement(list, 6));
+    // printf("%d\n", returnElement(list, 3));
+    // printf("%d\n", returnElement(list, 1));
 
-    deleteElement(&list, 6);
-    printList(list);
-    deleteElement(&list, 1);
-    printList(list);
-    deleteElement(&list, 4);
-    printList(list);
-    deleteElement(&list, 2);
-    printList(list);
+    // deleteElement(&list, 1);
+    // printList(list);
+    // deleteElement(&list, 4);
+    // printList(list);
+    // deleteElement(&list, 2);
+    // printList(list);
 
     reverseList(&list);
     printList(list);
@@ -146,6 +143,9 @@ void destroyList(DOUBLY_LINKED_LIST list) {
     }
 }
 
+/*
+// Implementação de inverter a lista
+
 void reverseList(DOUBLY_LINKED_LIST *list) {
     NODO *aux, *aux1;
     int atual = 0;
@@ -161,5 +161,21 @@ void reverseList(DOUBLY_LINKED_LIST *list) {
         aux1 = aux1->next;
         aux = aux->previous;
         atual++;
+    }
+}
+*/
+
+// Melhor implementação de inverter lista
+void reverseList(DOUBLY_LINKED_LIST *list) {
+    if(!isEmpty(*list)) {
+        NODO *aux;
+        do {
+            aux = (*list)->next;
+            (*list)->next = aux->previous;
+            (*list)->previous = aux;
+            if(aux) {
+                (*list) = aux;
+            }
+        } while(aux);
     }
 }
