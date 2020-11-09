@@ -23,15 +23,23 @@ int lengthOfList(HETEROGENEOUS_LIST list);
 void printList(HETEROGENEOUS_LIST list);
 
 int main() {
-    union values teste;
-    strcpy(teste.stringValue, "14");
-    teste.floatValue = 14;
-    teste.intValue = 14;
-    printf("%d...\n", sizeof(teste));
+    HETEROGENEOUS_LIST list;
+    union values Valores;
+    Valores.intValue = 22;
 
-    printf("%s\n", teste.stringValue);
-    printf("%f\n", teste.floatValue);
-    printf("%d\n", teste.intValue);
+    createList(&list);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    insertElement(&list, 1, 1, Valores);
+    
+    printf("Length: %d%c", lengthOfList(list), '\n');
 }
 
 void createList(HETEROGENEOUS_LIST *list) {
@@ -66,12 +74,15 @@ int insertElement(HETEROGENEOUS_LIST *list, int position, int type, union values
 
     if(type == INTGR) {
         alocado->VALUE.intValue = value.intValue;
+        alocado->type = 1;
     } else if(type == FLT) {
         alocado->VALUE.floatValue = value.floatValue;
+        alocado->type = 2;
     } else if(type == STRING) {
         strcpy(alocado->VALUE.stringValue, value.stringValue);
+        alocado->type = 3;
     } else {
-        printf("Error! Type not recognized");
+        printf("Error! Type not recognized\n");
         return 1;
     }
 
@@ -102,5 +113,19 @@ int insertElement(HETEROGENEOUS_LIST *list, int position, int type, union values
 }
 
 void printList(HETEROGENEOUS_LIST list) {
-    
+    NODO *aux;
+    printf("[");
+    for(aux = list, list = list->next; aux != list; list = list->next) {
+        if(list->type == 1) {
+            printf("\n\t%d,", list->VALUE.intValue);
+        } else if(list->type == 2) {
+            printf("\n\t%f,", list->VALUE.floatValue);
+        } else if(list->type == 3) {
+            printf("\n\t%s,", list->VALUE.stringValue);
+        } else {
+            printf("Error! Type not recognized");
+            exit(1);
+        }
+    }
+    printf("\b\n]\n");
 }
