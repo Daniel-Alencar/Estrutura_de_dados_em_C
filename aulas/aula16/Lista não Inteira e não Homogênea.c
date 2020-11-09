@@ -25,21 +25,29 @@ void printList(HETEROGENEOUS_LIST list);
 int main() {
     HETEROGENEOUS_LIST list;
     union values Valores;
-    Valores.intValue = 22;
 
     createList(&list);
+    Valores.intValue = 22;
     insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
-    insertElement(&list, 1, 1, Valores);
+    Valores.floatValue = 1.75;
+    insertElement(&list, 2, 2, Valores);
+    Valores.floatValue = 2.89736;
+    insertElement(&list, 3, 2, Valores);
+    strcpy(Valores.stringValue, "Daniel Alencar");
+    insertElement(&list, 4, 3, Valores);
+
+    printList(list);
+
+    Valores.intValue = 35;
+    insertElement(&list, 2, 1, Valores);
+    strcpy(Valores.stringValue, "consegue fazer");
+    insertElement(&list, 2, 3, Valores);
+    Valores.intValue = -65;
+    insertElement(&list, 3, 1, Valores);
+    Valores.floatValue = 2050.67;
+    insertElement(&list, 1, 2, Valores);
     
-    printf("Length: %d%c", lengthOfList(list), '\n');
+    printList(list);
 }
 
 void createList(HETEROGENEOUS_LIST *list) {
@@ -113,19 +121,34 @@ int insertElement(HETEROGENEOUS_LIST *list, int position, int type, union values
 }
 
 void printList(HETEROGENEOUS_LIST list) {
-    NODO *aux;
-    printf("[");
-    for(aux = list, list = list->next; aux != list; list = list->next) {
-        if(list->type == 1) {
-            printf("\n\t%d,", list->VALUE.intValue);
-        } else if(list->type == 2) {
-            printf("\n\t%f,", list->VALUE.floatValue);
-        } else if(list->type == 3) {
-            printf("\n\t%s,", list->VALUE.stringValue);
+    if(list) {
+        NODO *aux = list->next;
+        printf("[");
+        if(aux->type == 1) {
+            printf("\n\t%d", aux->VALUE.intValue);
+        } else if(aux->type == 2) {
+            printf("\n\t%f", aux->VALUE.floatValue);
+        } else if(aux->type == 3) {
+            printf("\n\t%s", aux->VALUE.stringValue);
         } else {
             printf("Error! Type not recognized");
             exit(1);
         }
+
+        for(aux = aux->next; aux != list->next; aux = aux->next) {
+            if(aux->type == 1) {
+                printf("\n\t%d", aux->VALUE.intValue);
+            } else if(aux->type == 2) {
+                printf("\n\t%f", aux->VALUE.floatValue);
+            } else if(aux->type == 3) {
+                printf("\n\t%s", aux->VALUE.stringValue);
+            } else {
+                printf("Error! Type not recognized");
+                exit(1);
+            }
+        }
+        printf("\n]\n");
+    } else {
+        printf("[]\n");
     }
-    printf("\b\n]\n");
 }
