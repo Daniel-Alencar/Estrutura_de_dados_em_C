@@ -47,8 +47,13 @@ int main() {
     insertElement(&list, 3, 1, Valores);
     Valores.floatValue = 2050.67;
     insertElement(&list, 1, 2, Valores);
-    
     printList(list);
+
+
+    printf("%s%c", belongsToTheList(list, FLT, Valores) ? "Pertence" : "Não pertence", '\n');
+    printf("%s%c", belongsToTheList(list, FLT, Valores) ? "Pertence" : "Não pertence", '\n');
+    printf("%s%c", belongsToTheList(list, FLT, Valores) ? "Pertence" : "Não pertence", '\n');
+    printf("%s%c", belongsToTheList(list, FLT, Valores) ? "Pertence" : "Não pertence", '\n');
 }
 
 void createList(HETEROGENEOUS_LIST *list) {
