@@ -15,6 +15,7 @@ void printList(LIST_WITH_HEADER list);
 int returnElement(LIST_WITH_HEADER list, int position);
 void deleteElement(LIST_WITH_HEADER list, int position);
 void destroyList(LIST_WITH_HEADER list);
+void reverseList(LIST_WITH_HEADER list);
 
 int main() {
     LIST_WITH_HEADER list;
@@ -42,21 +43,10 @@ int main() {
     insertElement(list, -7, 7);
     printList(list);
 
-    printf("%d%c", returnElement(list, 1), '\n');
-    printf("%d%c", returnElement(list, 2), '\n');
-    printf("%d%c", returnElement(list, 3), '\n');
-    printf("%d%c", returnElement(list, 4), '\n');
-    printf("%d%c", returnElement(list, 5), '\n');
-    printf("%d%c", returnElement(list, 6), '\n');
-    printf("%d%c", returnElement(list, 7), '\n');
 
-    deleteElement(list, 1);
-    printList(list);
 
-    deleteElement(list, 6);
-    printList(list);
 
-    deleteElement(list, 3);
+    reverseList(list);
     printList(list);
 }
 
@@ -141,4 +131,28 @@ void deleteElement(LIST_WITH_HEADER list, int position) {
     free(aux);
 
     list->values--;
+}
+
+void destroyList(LIST_WITH_HEADER list) {
+    NODO *aux;
+    int length = lengthOfList(list);
+    do {
+        aux = list;
+        list = list->next;
+        free(aux);
+    } while(length--);
+}
+
+void reverseList(LIST_WITH_HEADER list) {
+    NODO *aux;
+    int length = lengthOfList(list);
+    if(length > 1) {
+        do {
+            aux = list->next;
+            list->next = list->previous;
+            list->previous = aux;
+
+            list = aux;
+        } while(length--);
+    }
 }
