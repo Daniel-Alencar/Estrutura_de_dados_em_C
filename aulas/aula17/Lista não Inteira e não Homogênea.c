@@ -41,7 +41,7 @@ int main() {
 
     Valores.intValue = 35;
     insertElement(&list, 2, 1, Valores);
-    strcpy(Valores.stringValue, "consegue fazer");
+    strcpy(Valores.stringValue, "Jéssica Maria");
     insertElement(&list, 2, 3, Valores);
     Valores.intValue = -65;
     insertElement(&list, 3, 1, Valores);
