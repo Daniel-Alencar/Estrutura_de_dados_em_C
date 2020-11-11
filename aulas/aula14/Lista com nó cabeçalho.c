@@ -41,6 +41,23 @@ int main() {
 
     insertElement(list, -7, 7);
     printList(list);
+
+    printf("%d%c", returnElement(list, 1), '\n');
+    printf("%d%c", returnElement(list, 2), '\n');
+    printf("%d%c", returnElement(list, 3), '\n');
+    printf("%d%c", returnElement(list, 4), '\n');
+    printf("%d%c", returnElement(list, 5), '\n');
+    printf("%d%c", returnElement(list, 6), '\n');
+    printf("%d%c", returnElement(list, 7), '\n');
+
+    deleteElement(list, 1);
+    printList(list);
+
+    deleteElement(list, 6);
+    printList(list);
+
+    deleteElement(list, 3);
+    printList(list);
 }
 
 void createList(LIST_WITH_HEADER *list) {
@@ -92,4 +109,36 @@ void printList(LIST_WITH_HEADER list) {
         }
     }
     printf("\n");
+}
+
+int returnElement(LIST_WITH_HEADER list, int position) {
+    int length = lengthOfList(list), count;
+    if(position < 1 || position > length) {
+        printf("\nInvalid position\n\n");
+        exit(2);
+    }
+    if(position <= length / 2) {
+        int count = 1;
+        for(list = list->next; position > count; list = list->next, count++);
+    } else {
+        count = length;
+        for(list = list->previous; count > position; list = list->previous, count--);
+    }
+    return list->values;
+}
+
+void deleteElement(LIST_WITH_HEADER list, int position) {
+    int length = lengthOfList(list);
+    NODO *aux;
+    if(position < 1 || position > length) {
+        printf("\nInvalid position\n\n");
+        exit(2);
+    }
+    for(aux = list; position > 0; aux = aux->next, --position);
+
+    (aux->next)->previous = aux->previous;
+    (aux->previous)->next = aux->next;
+    free(aux);
+
+    list->values--;
 }
