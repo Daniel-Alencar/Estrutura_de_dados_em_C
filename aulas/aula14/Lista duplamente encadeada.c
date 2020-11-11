@@ -38,7 +38,7 @@ int main() {
     // deleteElement(&list, 2);
     // printList(list);
 
-    reverseValuesOfList(&list);
+    reverseList(&list);
     printList(list);
 }
 
@@ -168,7 +168,7 @@ void reverseList(DOUBLY_LINKED_LIST *list) {
         NODO *aux;
         do {
             aux = (*list)->next;
-            (*list)->next = aux->previous;
+            (*list)->next = (*list)->previous;
             (*list)->previous = aux;
             if(aux) {
                 (*list) = aux;

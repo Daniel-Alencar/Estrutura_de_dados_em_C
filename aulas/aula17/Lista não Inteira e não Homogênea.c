@@ -45,7 +45,7 @@ int main() {
     insertElement(&list, 2, 3, Valores);
     Valores.intValue = -65;
     insertElement(&list, 3, 1, Valores);
-    Valores.floatValue = 2050.67;
+    Valores.floatValue = 20.9;
     insertElement(&list, 1, 2, Valores);
     printList(list);
 
@@ -163,9 +163,9 @@ int belongsToTheList(HETEROGENEOUS_LIST list, int type, union values value) {
             if(
                 aux->type == type &&
                 (
-                    (INTGR == type && list->VALUE.intValue == value.intValue) ||
-                    (FLT == type && list->VALUE.floatValue == value.floatValue) ||
-                    (STRING == type && !strcmp(list->VALUE.stringValue, value.stringValue))
+                    (INTGR == type && aux->VALUE.intValue == value.intValue) ||
+                    (FLT == type && aux->VALUE.floatValue == value.floatValue) ||
+                    (STRING == type && !strcmp(aux->VALUE.stringValue, value.stringValue))
                 )
             ) {
                 return 1;
