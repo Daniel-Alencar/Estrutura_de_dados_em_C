@@ -150,28 +150,23 @@ void printList(HETEROGENEOUS_LIST list) {
 }
 
 int belongsToTheList(HETEROGENEOUS_LIST list, int type, union values value) {
-    NODO *aux = list->next;
-    int retorno = 0;
-    do {
-        if(aux->type == type) {
-            if(type == INTGR) {
-                if(value.intValue == aux->VALUE.intValue) {
-                    retorno = 1;
-                    break;
-                }
-            } else if(type == FLT) {
-                if(value.floatValue == aux->VALUE.floatValue) {
-                    retorno = 1;
-                    break;
-                }
-            } else if(type == STRING) {
-                if(strcmp(value.stringValue, aux->VALUE.stringValue) == 0) {
-                    retorno = 1;
-                    break;
-                }
+    if(!list)
+        return 0;
+    else {
+        NODO *aux = list;
+        do {
+            if(
+                aux->type == type &&
+                (
+                    (INTGR == type && list->VALUE.intValue == value.intValue) ||
+                    (FLT == type && list->VALUE.floatValue == value.floatValue) ||
+                    (STRING == type && !strcmp(list->VALUE.stringValue, value.stringValue))
+                )
+            ) {
+                return 1;
             }
-        }
-        aux = aux->next;
-    } while(aux != list->next);
-    return retorno;
+            aux = aux->next;
+        } while(aux != list);
+        return 0;
+    }
 }
