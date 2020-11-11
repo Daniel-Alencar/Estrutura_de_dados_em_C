@@ -17,7 +17,30 @@ void deleteElement(LIST_WITH_HEADER list, int position);
 void destroyList(LIST_WITH_HEADER list);
 
 int main() {
+    LIST_WITH_HEADER list;
+    createList(&list);
+    printList(list);
 
+    insertElement(list, 8, 1);
+    printList(list);
+
+    insertElement(list, 9, 1);
+    printList(list);
+
+    insertElement(list, 10, 1);
+    printList(list);
+
+    insertElement(list, 11, 1);
+    printList(list);
+
+    insertElement(list, -70, 3);
+    printList(list);
+
+    insertElement(list, 1200, 5);
+    printList(list);
+
+    insertElement(list, -7, 7);
+    printList(list);
 }
 
 void createList(LIST_WITH_HEADER *list) {
@@ -39,40 +62,34 @@ int lengthOfList(LIST_WITH_HEADER list) {
 }
 
 void insertElement(LIST_WITH_HEADER list, int value, int position) {
-    if(position < 1 || position > (lengthOfList(list) + 1)) {
+    NODO *alocado = (NODO *) malloc(sizeof(NODO)), *aux;
+    int length = lengthOfList(list);
+
+    if(position < 1 || position > (length + 1)) {
         printf("\nInvalid position\n\n");
         exit(2);
     }
-    NODO *alocado = (NODO *) malloc(sizeof(NODO));
     if(!alocado) {
         printf("\nNot storage enough\n\n");
         exit(1);
     }
     alocado->values = value;
-    if(list->values == 0) {
-        list->next = alocado;
-        list->previous = alocado;
 
-        alocado->next = list;
-        alocado->previous = list;
-    } else if(position == lengthOfList(list) + 1) {
-        (list->previous)->next = alocado;
-        alocado->previous = (list->previous);
-
-        list->previous = alocado;
-        alocado->next = list;
-    } else {
-        NODO *aux;
-        if(position <= lengthOfList(list) / 2)
-            for(aux = list; --position; aux = aux->next);
-        else
-            for(aux = list; position >= 0; aux = aux->previous, position--);
-        
-        (aux->next)->previous = alocado;
-        alocado = aux->next;
-
-        aux->next = alocado;
-        alocado->previous = aux;
-    }
+    for(aux = list; position > 1; aux = aux->next, --position);
+    (aux->next)->previous = alocado;
+    alocado->next = aux->next;
+    aux->next = alocado;
+    alocado->previous = aux;
+    
     list->values++;
+}
+
+void printList(LIST_WITH_HEADER list) {
+    if(list->values) {
+        NODO *aux;
+        for(aux = list->next; aux != list; aux = aux->next) {
+            printf("%d...", aux->values);
+        }
+    }
+    printf("\n");
 }
