@@ -43,11 +43,21 @@ int main() {
     insertElement(list, -7, 7);
     printList(list);
 
-
-
-
-    reverseList(list);
+    insertElement(list, -14, 7);
     printList(list);
+
+    insertElement(list, -21, 7);
+    printList(list);
+
+    printf("%d%c", returnElement(list, 1), '\n');
+    printf("%d%c", returnElement(list, 2), '\n');
+    printf("%d%c", returnElement(list, 3), '\n');
+    printf("%d%c", returnElement(list, 4), '\n');
+    printf("%d%c", returnElement(list, 5), '\n');
+    printf("%d%c", returnElement(list, 6), '\n');
+    printf("%d%c", returnElement(list, 7), '\n');
+    printf("%d%c", returnElement(list, 8), '\n');
+    printf("%d%c", returnElement(list, 9), '\n');
 }
 
 void createList(LIST_WITH_HEADER *list) {
@@ -82,12 +92,21 @@ void insertElement(LIST_WITH_HEADER list, int value, int position) {
     }
     alocado->values = value;
 
-    for(aux = list; position > 1; aux = aux->next, --position);
-    (aux->next)->previous = alocado;
-    alocado->next = aux->next;
-    aux->next = alocado;
-    alocado->previous = aux;
-    
+    if(position <= length / 2) {
+        for(aux = list; position > 1; aux = aux->next, --position);
+
+        (aux->next)->previous = alocado;
+        alocado->next = aux->next;
+        aux->next = alocado;
+        alocado->previous = aux;
+    } else {
+        for(aux = list; length >= position ; aux = aux->previous, length--);
+
+        (aux->previous)->next = alocado;
+        alocado->previous = aux->previous;
+        aux->previous = alocado;
+        alocado->next = aux;
+    }
     list->values++;
 }
 
@@ -102,17 +121,15 @@ void printList(LIST_WITH_HEADER list) {
 }
 
 int returnElement(LIST_WITH_HEADER list, int position) {
-    int length = lengthOfList(list), count;
+    int length = lengthOfList(list);
     if(position < 1 || position > length) {
         printf("\nInvalid position\n\n");
         exit(2);
     }
     if(position <= length / 2) {
-        int count = 1;
-        for(list = list->next; position > count; list = list->next, count++);
+        for(; position > 0; list = list->next, position--);
     } else {
-        count = length;
-        for(list = list->previous; count > position; list = list->previous, count--);
+        for(; length >= position; list = list->previous, length--);
     }
     return list->values;
 }
