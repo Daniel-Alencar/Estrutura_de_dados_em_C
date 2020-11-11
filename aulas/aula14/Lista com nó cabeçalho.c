@@ -58,6 +58,22 @@ int main() {
     printf("%d%c", returnElement(list, 7), '\n');
     printf("%d%c", returnElement(list, 8), '\n');
     printf("%d%c", returnElement(list, 9), '\n');
+
+    printList(list);
+    deleteElement(list, 9);
+    printList(list);
+
+    deleteElement(list, 8);
+    printList(list);
+
+    deleteElement(list, 1);
+    printList(list);
+
+    deleteElement(list, 3);
+    printList(list);
+
+    deleteElement(list, 4);
+    printList(list);
 }
 
 void createList(LIST_WITH_HEADER *list) {
@@ -136,18 +152,19 @@ int returnElement(LIST_WITH_HEADER list, int position) {
 
 void deleteElement(LIST_WITH_HEADER list, int position) {
     int length = lengthOfList(list);
-    NODO *aux;
     if(position < 1 || position > length) {
         printf("\nInvalid position\n\n");
         exit(2);
     }
-    for(aux = list; position > 0; aux = aux->next, --position);
-
-    (aux->next)->previous = aux->previous;
-    (aux->previous)->next = aux->next;
-    free(aux);
-
     list->values--;
+
+    if(position <= length / 2)
+        for(; position > 0; list = list->next, position--);
+    else
+        for(; length >= position; list = list->previous, length--);
+    (list->next)->previous = list->previous;
+    (list->previous)->next = list->next;
+    free(list);
 }
 
 void destroyList(LIST_WITH_HEADER list) {
