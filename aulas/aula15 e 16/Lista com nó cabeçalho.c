@@ -31,49 +31,51 @@ int main() {
     insertElement(list, 10, 1);
     printList(list);
 
-    insertElement(list, 11, 1);
+    insertElement(list, 7, 1);
     printList(list);
 
     insertElement(list, -70, 3);
     printList(list);
 
-    insertElement(list, 1200, 5);
+    insertElement(list, 1200, 6);
     printList(list);
 
-    insertElement(list, -7, 7);
+    insertElement(list, -7, 1);
     printList(list);
 
-    insertElement(list, -14, 7);
-    printList(list);
+    // insertElement(list, -14, 7);
+    // printList(list);
 
-    insertElement(list, -21, 7);
-    printList(list);
+    // insertElement(list, -21, 7);
+    // printList(list);
 
-    printf("%d%c", returnElement(list, 1), '\n');
-    printf("%d%c", returnElement(list, 2), '\n');
-    printf("%d%c", returnElement(list, 3), '\n');
-    printf("%d%c", returnElement(list, 4), '\n');
-    printf("%d%c", returnElement(list, 5), '\n');
-    printf("%d%c", returnElement(list, 6), '\n');
-    printf("%d%c", returnElement(list, 7), '\n');
-    printf("%d%c", returnElement(list, 8), '\n');
-    printf("%d%c", returnElement(list, 9), '\n');
+    // printf("%d%c", returnElement(list, 1), '\n');
+    // printf("%d%c", returnElement(list, 2), '\n');
+    // printf("%d%c", returnElement(list, 3), '\n');
+    // printf("%d%c", returnElement(list, 4), '\n');
+    // printf("%d%c", returnElement(list, 5), '\n');
+    // printf("%d%c", returnElement(list, 6), '\n');
+    // printf("%d%c", returnElement(list, 7), '\n');
+    // printf("%d%c", returnElement(list, 8), '\n');
+    // printf("%d%c", returnElement(list, 9), '\n');
 
-    printList(list);
-    deleteElement(list, 9);
-    printList(list);
+//     printList(list);
 
-    deleteElement(list, 8);
-    printList(list);
+    // printf("\n\n");
+    // deleteElement(list, 9);
+    // printList(list);
 
-    deleteElement(list, 1);
-    printList(list);
+    // deleteElement(list, 8);
+    // printList(list);
 
-    deleteElement(list, 3);
-    printList(list);
+    // deleteElement(list, 1);
+    // printList(list);
 
-    deleteElement(list, 4);
-    printList(list);
+    // deleteElement(list, 3);
+    // printList(list);
+
+    // deleteElement(list, 4);
+    // printList(list);
 }
 
 void createList(LIST_WITH_HEADER *list) {
@@ -94,37 +96,39 @@ int lengthOfList(LIST_WITH_HEADER list) {
     return list->values;
 }
 
-void insertElement(LIST_WITH_HEADER list, int value, int position) {
-    NODO *alocado = (NODO *) malloc(sizeof(NODO)), *aux;
-    int length = lengthOfList(list);
 
-    if(position < 1 || position > (length + 1)) {
+
+
+
+
+
+void insertElement(LIST_WITH_HEADER list, int value, int position) {
+    LIST_WITH_HEADER alocado;
+    if(position < 1 || position > (list->values + 1)) {
         printf("\nInvalid position\n\n");
         exit(2);
     }
+    alocado = (LIST_WITH_HEADER) malloc(sizeof(NODO));
     if(!alocado) {
-        printf("\nNot storage enough\n\n");
-        exit(1);
+        printf("\nerro\n\n");
+        exit(3);
     }
+
     alocado->values = value;
-
-    if(position <= length / 2) {
-        for(aux = list; position > 1; aux = aux->next, --position);
-
-        (aux->next)->previous = alocado;
-        alocado->next = aux->next;
-        aux->next = alocado;
-        alocado->previous = aux;
-    } else {
-        for(aux = list; length >= position ; aux = aux->previous, length--);
-
-        (aux->previous)->next = alocado;
-        alocado->previous = aux->previous;
-        aux->previous = alocado;
-        alocado->next = aux;
-    }
     list->values++;
+
+    for(; position < list->values;list = list->previous, position++ );
+    alocado->previous = list->previous;
+    alocado->next = list;
+    list->previous = alocado;
+    (alocado->previous)->next = alocado;
 }
+
+
+
+
+
+
 
 void printList(LIST_WITH_HEADER list) {
     if(list->values) {
@@ -158,10 +162,14 @@ void deleteElement(LIST_WITH_HEADER list, int position) {
     }
     list->values--;
 
-    if(position <= length / 2)
-        for(; position > 0; list = list->next, position--);
-    else
-        for(; length >= position; list = list->previous, length--);
+    // if(position <= length / 2)
+    //     for(; position > 0; list = list->next, position--);
+    // else
+    //     for(; length >= position; list = list->previous, length--);
+    while(position++ <= length) {
+        list = list->previous;
+    }
+
     (list->next)->previous = list->previous;
     (list->previous)->next = list->next;
     free(list);
