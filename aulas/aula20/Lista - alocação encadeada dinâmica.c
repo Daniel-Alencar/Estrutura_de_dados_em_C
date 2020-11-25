@@ -342,12 +342,12 @@ void sortByDistribution(DYNAMIC_CHAINED_LIST *list) {
     }
 
     for(acumulate = 1; digitos; acumulate *= 10, digitos--) {
-        for(i=0; lengthOfListWithRecursion(list); i++) {
+        while(lengthOfListWithRecursion(*list)) {
             int index, value = returnElementWithRecursion(*list, 1);
             deleteElement(list, 1);
 
             index = (value / acumulate) % 10;
-            insertElement((lists + index), i, value);
+            insertElement((lists + index), lengthOfListWithRecursion(*(lists + index)), value);
         }
         j=0;
         for(i=0;i<base;i++) {
@@ -357,5 +357,5 @@ void sortByDistribution(DYNAMIC_CHAINED_LIST *list) {
             }
         }
     }
-    // free(lists);
+    free(lists);
 }
