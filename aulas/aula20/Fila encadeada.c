@@ -40,12 +40,6 @@ int main() {
     
     sortByDistribution(line);
     printLine(line);
-
-    printf("%d...", returnAndDeleteElement(line));
-    printf("%d...", returnAndDeleteElement(line));
-    printf("%d...", returnAndDeleteElement(line));
-    printf("\n\n");
-    printLine(line);
 }
 
 void createLine(LINKED_LINE *line) {
@@ -154,7 +148,6 @@ int lengthOfLine(LINKED_LINE line) {
 }
 
 void printLine(LINKED_LINE line) {
-    int i;
     NODE *aux;
     for(aux = line->firstNode; aux; aux = aux->next) {
         printf("%d...", aux->value);
@@ -162,23 +155,24 @@ void printLine(LINKED_LINE line) {
     printf("\n\n");
 }
 
-void sortLinkedListByDistribution(DYNAMIC_CHAINED_LIST *list) {
-    int c1, c2;
-    LINKED_LINE lines[BASE];
-    for(c2=0; c2<BASE; c2++) {
-        createLine(&lines[c2]);
+void sortByDistribution(LINKED_LINE line) {
+    int i,acumulate, base = 10, digitos = 4;
+    LINKED_LINE * filas = (LINKED_LINE *) malloc(sizeof(LINKED_LINE) * base);
+    for(i=0;i<base;i++) {
+        createLine(&filas[i]);
     }
-    for(c1=0; c1<MAXIMUM_DIGITS; c1++) {
-        while(!isEmpty(*list)) {
-            int i, value = returnElementWithRecursion(*list, 1);
-            i = (value / (int) (pow(BASE, c1))) % BASE;
-            insertElement(lines[i], value);
-            deleteElement(list, 1);
+
+    for(acumulate = 1; digitos; acumulate *= 10, digitos--) {
+        while(lengthOfLine(line)) {
+            int value = returnAndDeleteElement(line);
+            int index = (value / acumulate) % 10;
+            insertElement(*(filas + index), value);
         }
-        for(c2=0; c2<BASE; c2++) {
-            while(!isEmpty(lines[c2])) {
-                insertElementWithRecursion(list, returnAndDeleteElement(lines[c2]), lengthOfListWithRecursion(*list) + 1);
+        for(i=0;i<base;i++) {
+            while(lengthOfLine(*(filas + i))) {
+                insertElement(line, returnAndDeleteElement(*(filas + i)));
             }
         }
     }
-}
+    free(filas);
+} 

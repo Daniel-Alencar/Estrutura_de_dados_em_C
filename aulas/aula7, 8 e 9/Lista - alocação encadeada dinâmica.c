@@ -18,7 +18,7 @@ int main() {
             scanf("%i", &number);
             printf("Posição que quer colocar: ");
             scanf("%i", &position);
-            insertElementWithRecursion(&list, position, number);
+            insertElementIntoListWithRecursion(&list, position, number);
 
             printf("Deseja continuar adicionando[Y/n]? ");
             setbuf(stdin, NULL);
@@ -35,7 +35,7 @@ int main() {
         do {
             printf("Posição que quer remover: ");
             scanf("%i", &position);
-            deleteElementWithRecursion(&list, position);
+            deleteElementFromListWithRecursion(&list, position);
 
             printf("Deseja continuar removendo[Y/n]? ");
             setbuf(stdin, NULL);
@@ -68,7 +68,7 @@ void createList(DYNAMIC_CHAINED_LIST *list) {
     (*list) = NULL;
 }
 
-int isEmpty(DYNAMIC_CHAINED_LIST list) {
+int listIsEmpty(DYNAMIC_CHAINED_LIST list) {
     return list == NULL;
 }
 
@@ -80,7 +80,7 @@ int lengthOfList(DYNAMIC_CHAINED_LIST list) {
     return length;
 }
 
-void insertElement(DYNAMIC_CHAINED_LIST *list, int position, int value) {
+void insertElementIntoList(DYNAMIC_CHAINED_LIST *list, int position, int value) {
     NODO *alocado;
 
     if(position < 0 || position > lengthOfList(*list)) {
@@ -118,7 +118,7 @@ void printList(DYNAMIC_CHAINED_LIST *list) {
     printf("\n");
 }
 
-void insertElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position, int value) {
+void insertElementIntoListWithRecursion(DYNAMIC_CHAINED_LIST *list, int position, int value) {
     if(position < 1 || position > (lengthOfList((*list)) + 1)) {
         printf("\nPosition isn't valid\n\n");
         exit(1);
@@ -136,7 +136,7 @@ void insertElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position, int va
         
         (*list) = alocado;
     } else {
-        insertElementWithRecursion(&((*list)->next), position - 1, value);
+        insertElementIntoListWithRecursion(&((*list)->next), position - 1, value);
     }
 }
 
@@ -152,7 +152,7 @@ int returnElementWithRecursion(DYNAMIC_CHAINED_LIST list, int position) {
     }
 }
 
-void deleteElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position) {
+void deleteElementFromListWithRecursion(DYNAMIC_CHAINED_LIST *list, int position) {
     if(position < 1 || position > lengthOfList((*list))) {
         printf("\nPosition isn't valid\n\n");
         exit(1);
@@ -162,11 +162,11 @@ void deleteElementWithRecursion(DYNAMIC_CHAINED_LIST *list, int position) {
         (*list) = (*list)->next;
         free(aux);
     } else {
-        deleteElementWithRecursion(&((*list)->next), position - 1);
+        deleteElementFromListWithRecursion(&((*list)->next), position - 1);
     }
 }
 
-void deleteElement(DYNAMIC_CHAINED_LIST *list, int position) {
+void deleteElementFromList(DYNAMIC_CHAINED_LIST *list, int position) {
     NODO *aux;
 
     if(position < 1 || position > lengthOfList((*list))) {
@@ -264,7 +264,7 @@ int generateList(DYNAMIC_CHAINED_LIST *list, int firstElement, int lastElement) 
     }
     createList(list);
     while(lastElement >= firstElement) {
-        insertElementWithRecursion(list, 1, lastElement);
+        insertElementIntoListWithRecursion(list, 1, lastElement);
         lastElement--;
     }
     return 1;
@@ -277,10 +277,10 @@ int generateListWithRecursion(DYNAMIC_CHAINED_LIST *list, int firstElement, int 
     } else {
         if(firstElement == lastElement) {
             createList(list);
-            insertElementWithRecursion(list, 1, firstElement);
+            insertElementIntoListWithRecursion(list, 1, firstElement);
         } else {
             generateListWithRecursion(list, firstElement + 1, lastElement);
-            insertElementWithRecursion(list, 1, firstElement);
+            insertElementIntoListWithRecursion(list, 1, firstElement);
         }
     }
     return 1;
