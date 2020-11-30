@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.html": "njk",
-        "type_traits": "c"
+        "type_traits": "c",
+        "lista - alocação encadeada dinâmica": "c"
     }
 }

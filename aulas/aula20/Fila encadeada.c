@@ -1,5 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include"../aula7, 8 e 9/Lista - alocação encadeada dinâmica.h"
+#define BASE 10
+#define MAXIMUM_DIGITS 4
+
 typedef struct node {
     int value;
     struct node * next;
@@ -20,7 +24,6 @@ int returnAndDeleteElement(LINKED_LINE line);
 void destroyLine1(LINKED_LINE line);
 void destroyLine2(LINKED_LINE line);
 void sortByDistribution(LINKED_LINE line);
-
 void printLine(LINKED_LINE line);
 int lengthOfLine(LINKED_LINE line);
 
@@ -33,9 +36,15 @@ int main() {
     insertElement(line, 2719);
     insertElement(line, 2718);
     insertElement(line, 1312);
-
     printLine(line);
+    
     sortByDistribution(line);
+    printLine(line);
+
+    printf("%d...", returnAndDeleteElement(line));
+    printf("%d...", returnAndDeleteElement(line));
+    printf("%d...", returnAndDeleteElement(line));
+    printf("\n\n");
     printLine(line);
 }
 
@@ -153,24 +162,23 @@ void printLine(LINKED_LINE line) {
     printf("\n\n");
 }
 
-void sortByDistribution(LINKED_LINE line) {
-    int i,acumulate, base = 10, digitos = 4;
-    LINKED_LINE * filas = (LINKED_LINE *) malloc(sizeof(LINKED_LINE) * base);
-    for(i=0;i<base;i++) {
-        createLine(&filas[i]);
+void sortLinkedListByDistribution(DYNAMIC_CHAINED_LIST *list) {
+    int c1, c2;
+    LINKED_LINE lines[BASE];
+    for(c2=0; c2<BASE; c2++) {
+        createLine(&lines[c2]);
     }
-
-    for(acumulate = 1; digitos; acumulate *= 10, digitos--) {
-        while(lengthOfLine(line)) {
-            int value = returnAndDeleteElement(line);
-            int index = (value / acumulate) % 10;
-            insertElement(*(filas + index), value);
+    for(c1=0; c1<MAXIMUM_DIGITS; c1++) {
+        while(!isEmpty(*list)) {
+            int i, value = returnElementWithRecursion(*list, 1);
+            i = (value / (int) (pow(BASE, c1))) % BASE;
+            insertElement(lines[i], value);
+            deleteElement(list, 1);
         }
-        for(i=0;i<base;i++) {
-            while(lengthOfLine(*(filas + i))) {
-                insertElement(line, returnAndDeleteElement(*(filas + i)));
+        for(c2=0; c2<BASE; c2++) {
+            while(!isEmpty(lines[c2])) {
+                insertElementWithRecursion(list, returnAndDeleteElement(lines[c2]), lengthOfListWithRecursion(*list) + 1);
             }
         }
     }
-    free(filas);
 }
