@@ -1,10 +1,30 @@
+#include<stdio.h>
+#include<stdlib.h>
 #include"./FilaSequencial.h"
 
 int main() {
-    LINE line;
+    LINE line, line2;
+    
     createLine(&line);
-    generateLine2(&line, 3, 5);
+    insertElement(&line, 16);
+    insertElement(&line, 32);
+    insertElement(&line, 64);
+    insertElement(&line, 128);
+    insertElement(&line, 256);
     printLine(&line);
+
+    printf("%d...", returnAndDeleteElement(&line));
+    printf("%d...", returnAndDeleteElement(&line));
+    printf("%d...", returnAndDeleteElement(&line));
+    printf("%d...", returnAndDeleteElement(&line));
+    printf("%d...", returnAndDeleteElement(&line));
+    printf("\n\n");
+
+
+
+    createLine(&line2);
+    generateLine(&line2, -2, 6);
+    printLine(&line2);
 }
 
 void createLine(LINE *line) {
@@ -70,27 +90,17 @@ int returnAndDeleteElement(LINE *line) {
     return line->elements[ line->began % max == 0 ? max-1 : line->began - 1];
 }
 
-void generateLine1(LINE *line, int first, int last) {
-    createLine(line);
-    helperToGenerateLine(line, first, last);
-}
-
-void helperToGenerateLine(LINE *line, int first, int last) {
-    if(first <= last) {
-        insertElement(line, first);
-        generateLine1(line, first + 1, last);
-    }
-}
-
-void generateLine2(LINE *line, int first, int last) {
-    if(first == last) {
-        createLine(line);
-        insertElement(line, last);
-    } else if(first < last) {
-        generateLine2(line, first, last - 1);
-        insertElement(line, last);
-    } else if(first > last) {
+void generateLine(LINE *line, int first, int last) {
+    if(first > last) {
         printf("\nIt's not possible generate line with this range\n\n");
         exit(2);
+    } else {
+        if(first == last) {
+        createLine(line);
+        insertElement(line, last);
+        } else {
+            generateLine(line, first, last - 1);
+            insertElement(line, last);
+        }
     }
 }

@@ -17,14 +17,27 @@ void insertElement(LINKED_LINE line, int value);
 int returnFirstElement(LINKED_LINE line);
 void deleteFirstElement(LINKED_LINE line);
 int returnAndDeleteElement(LINKED_LINE line);
-void destroyLine1(LINKED_LINE line);
-void destroyLine2(LINKED_LINE line);
-
+void destroyLine(LINKED_LINE line);
 void printLine(LINKED_LINE line);
 int lengthOfLine(LINKED_LINE line);
 
 int main() {
     LINKED_LINE line;
+    createLine(&line);
+    insertElement(line, 16);
+    insertElement(line, 8);
+    insertElement(line, 8);
+    insertElement(line, -5);
+    insertElement(line, 9);
+    printLine(line);
+
+    printf("%d...", returnAndDeleteElement(line));
+    printf("%d...", returnAndDeleteElement(line));
+    printLine(line);
+
+    destroyLine(line);
+    createLine(&line);
+    printLine(line);
 }
 
 void createLine(LINKED_LINE *line) {
@@ -50,7 +63,7 @@ void insertElement(LINKED_LINE line, int value) {
     alocado->value = value;
     alocado->next = NULL;
 
-    if(line->lastNode == NULL) {
+    if(isEmpty(line)) {
         line->firstNode = alocado;
     } else  {
         line->lastNode->next = alocado;
@@ -98,8 +111,8 @@ int returnAndDeleteElement(LINKED_LINE line) {
     return value;
 }
 
-void destroyLine1(LINKED_LINE line) {
-    if(!line->firstNode) {
+void destroyLine(LINKED_LINE line) {
+    if(line->firstNode == NULL) {
         printf("\nThe line is empty\n\n");
         exit(2);
     } else {
@@ -113,21 +126,14 @@ void destroyLine1(LINKED_LINE line) {
     }
 }
 
-void destroyLine2(LINKED_LINE line) {
-    if(!line->firstNode) {
-        printf("\nThe line is empty\n\n");
-        exit(2);
-    } else {
-        NODE *aux = line->firstNode;
-        while(aux) {
-            line->firstNode = aux->next;
-            free(aux);
-            aux = line->firstNode;
-        }
-        free(line);
-    }
-}
-
 int lengthOfLine(LINKED_LINE line) {
     return line->length;
+}
+
+void printLine(LINKED_LINE line) {
+    NODE *aux;
+    for(aux = line->firstNode; aux; aux = aux->next) {
+        printf("%d...", aux->value);
+    }
+    printf("\n\n");
 }

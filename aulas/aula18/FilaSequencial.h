@@ -1,6 +1,4 @@
-#include<stdio.h>
-#include<stdlib.h>
-#define max 5
+#define max 10
 typedef struct {
     int length;
     int final;
@@ -16,7 +14,4 @@ int returnFirstElement(LINE *line);
 void deleteFirstElement(LINE *line);
 int returnAndDeleteElement(LINE *line);
 void printLine(LINE *line);
-
-void generateLine1(LINE *line, int first, int last);
-void helperToGenerateLine(LINE *line, int first, int last);
-void generateLine2(LINE *line, int first, int last);
+void generateLine(LINE *line, int first, int last);
