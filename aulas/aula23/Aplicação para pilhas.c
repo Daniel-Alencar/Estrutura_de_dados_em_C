@@ -14,13 +14,26 @@ int topOfStack(LINKED_STACK stack);
 void popOfStack(LINKED_STACK *stack);
 int topAndPopOfStack(LINKED_STACK *stack);
 void destroyStack(LINKED_STACK stack);
-int resultOfPostFixedExpression(char *expression);
+int postFixedExpression(char *expression);
+int isOperating(char character);
+int performOperation(int operating1, char operator, int operating2);
+int checkPrecedence(char operator1, char operator2);
 
 int main() {
     char posFixed[20] = "85+3-";
-    printf("%s = %d%c", posFixed, resultOfPostFixedExpression(posFixed), '\n');
+    int i, j, position = 0;
+
+    printf("%s = %d%c", posFixed, postFixedExpression(posFixed), '\n');
     strcpy(posFixed, "871+*93-*2*");
-    printf("%s = %d%c", posFixed, resultOfPostFixedExpression(posFixed), '\n');
+    printf("%s = %d%c", posFixed, postFixedExpression(posFixed), '\n');
+
+    char operators[] = "^/*-+";
+    int length = strlen(operators);
+    for (i=0; i < length; i++) {
+        for(j=0; j < length; j++) {
+            printf("%c e %c => %d%c", operators[i], operators[j], checkPrecedence(operators[i], operators[j]), '\n');
+        }
+    }
 }
 
 void createStack(LINKED_STACK *stack) {
@@ -64,7 +77,7 @@ void popOfStack(LINKED_STACK *stack) {
 int topAndPopOfStack(LINKED_STACK *stack) {
     int value;
     if(!(*stack)) {
-        printf("\nThe stack is empty\n");
+        printf("\n dasdaThe stack is empty\n");
         exit(2);
     } else {
         NODE *aux = *stack;
@@ -85,45 +98,60 @@ void destroyStack(LINKED_STACK stack) {
     }
 }
 
-int resultOfPostFixedExpression(char *expression) {
-    int i, length = strlen(expression), value;
+int postFixedExpression(char *expression) {
+    int i, length = strlen(expression);
     LINKED_STACK pilha;
     createStack(&pilha);
     for(i=0; i<length; i++) {
-        if(48 <= (int)expression[i] && (int)expression[i] <= 57) {
-            pushOfStack(&pilha, (int)expression[i] - 48);
+        if(isOperating(expression[i])) {
+            pushOfStack(&pilha, (int)expression[i] - '0');
         } else {
-            switch (expression[i]) {
-                case '+':
-                    value = (topAndPopOfStack(&pilha) + topAndPopOfStack(&pilha));
-                    pushOfStack(&pilha, value);
-                    break;
-                case '-':
-                    value = (topAndPopOfStack(&pilha) - topAndPopOfStack(&pilha));
-                    pushOfStack(&pilha, value);
-                    break;
-                case '*':
-                    value = (topAndPopOfStack(&pilha) * topAndPopOfStack(&pilha));
-                    pushOfStack(&pilha, value);
-                    break;
-                case '/':
-                    value = topAndPopOfStack(&pilha);
-                    if(!topOfStack(pilha)) {
-                        printf("Invalid  arithmetic expression\n");
-                        return 0;
-                    }
-                    value = value / topAndPopOfStack(&pilha);
-                    pushOfStack(&pilha, value);
-                    break;
-                case '^':
-                    value = (int) pow(topAndPopOfStack(&pilha), topAndPopOfStack(&pilha));
-                    pushOfStack(&pilha, value);
-                    break;
-                default:
-                    printf("Invalid  arithmetic expression\n");
-                    return 0;
-            }
+            int value1 = topAndPopOfStack(&pilha), value2 = topAndPopOfStack(&pilha);
+            pushOfStack(&pilha, performOperation(value1, expression[i], value2));
         }
     }
-    return topOfStack(pilha);
+    return topAndPopOfStack(&pilha);
+}
+
+int isOperating(char character) {
+    if('0' <= character && character <= '9')
+        return 1;
+    return 0;
+}
+
+int performOperation(int operating1, char operator, int operating2) {
+    switch (operator) {
+        case '+': return operating1 + operating2;
+            break;
+        case '-': return operating1 - operating2;
+            break;
+        case '*': return operating1 * operating2;
+            break;
+        case '^': return ((int) pow(operating1, operating2));
+            break;
+        case '/':    
+            if(operating2 == 0) {
+                printf("Invalid arithmetic expression\n");
+                exit(1);
+            }
+            return operating1 / operating2;
+            break;
+        default:
+            printf("Invalid arithmetic expression\n");
+            exit(1);
+            break;
+    }
+}
+
+int checkPrecedence(char operator1, char operator2) {
+    if(((operator1 == '+') || (operator1 == '-')) && 
+        ((operator2 == '+') || (operator2 == '-')))
+        return 1;
+    if(((operator1 == '*') || (operator1 == '/')) && 
+        ((operator2 == '*') || (operator2 == '/') || (operator2 == '+') || (operator2 == '-')))
+        return 1;
+    if((operator1 == '^') && 
+        ((operator2 == '^') || (operator2 == '*') || (operator2 == '/') || (operator2 == '+') || (operator2 == '-')))
+        return 1;
+    return 0;
 }
