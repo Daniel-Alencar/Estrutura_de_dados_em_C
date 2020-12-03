@@ -18,22 +18,18 @@ int postFixedExpression(char *expression);
 int isOperating(char character);
 int performOperation(int operating1, char operator, int operating2);
 int checkPrecedence(char operator1, char operator2);
+void convertInOrderExpressionToPostFixed(char *expression);
 
 int main() {
     char posFixed[20] = "85+3-";
+    char inOrder[10] = "5+9*1-7";
     int i, j, position = 0;
 
     printf("%s = %d%c", posFixed, postFixedExpression(posFixed), '\n');
     strcpy(posFixed, "871+*93-*2*");
     printf("%s = %d%c", posFixed, postFixedExpression(posFixed), '\n');
 
-    char operators[] = "^/*-+";
-    int length = strlen(operators);
-    for (i=0; i < length; i++) {
-        for(j=0; j < length; j++) {
-            printf("%c e %c => %d%c", operators[i], operators[j], checkPrecedence(operators[i], operators[j]), '\n');
-        }
-    }
+    convertInOrderExpressionToPostFixed(inOrder);
 }
 
 void createStack(LINKED_STACK *stack) {
@@ -154,4 +150,37 @@ int checkPrecedence(char operator1, char operator2) {
         ((operator2 == '^') || (operator2 == '*') || (operator2 == '/') || (operator2 == '+') || (operator2 == '-')))
         return 1;
     return 0;
+}
+
+void convertInOrderExpressionToPostFixed(char *expression) {
+    int i, j;
+    char posFixed[10];
+    LINKED_STACK operadores;
+    createStack(&operadores);
+
+    j = 0;
+    for (i = 0; expression[i] != '\0'; i++) {
+        if(isOperating(expression[i])) {
+            posFixed[j] = expression[i];
+            j++;
+        } else {
+            if(stackIsEmpty(operadores)) {
+                pushOfStack(&operadores, (int)expression[i]);
+            } else {
+                while(checkPrecedence((char) topOfStack(operadores), expression[i])) {
+                    posFixed[j] = (char) topAndPopOfStack(&operadores);
+                    j++;
+                    if(stackIsEmpty(operadores))
+                        break;
+                }
+                pushOfStack(&operadores, (int)expression[i]);
+            }
+        }
+    }
+    while(!stackIsEmpty(operadores)) {
+        posFixed[j] = (char) topAndPopOfStack(&operadores);
+        j++;
+    }
+    posFixed[j] = '\0';
+    puts(posFixed);
 }
