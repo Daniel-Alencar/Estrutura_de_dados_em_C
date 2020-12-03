@@ -3,6 +3,17 @@
 #include<string.h>
 #include<math.h>
 #include"./Aplicação para pilhas.h"
+#define MAXIMUM_EXPRESSION 100
+
+int main() {
+    char expressaoInfixada[MAXIMUM_EXPRESSION];
+    char expressaoPosFixada[MAXIMUM_EXPRESSION];
+    scanf("%[^\n]", expressaoInfixada);
+    
+    convertInOrderExpressionWithParenthesesToPostFixed(expressaoInfixada, expressaoPosFixada);
+    printf("%s = %s = %d%c", expressaoInfixada, expressaoPosFixada, postFixedExpression(expressaoPosFixada), '\n');
+    return 0;
+}
 
 void createStack(LINKED_STACK *stack) {
     *stack = NULL;
