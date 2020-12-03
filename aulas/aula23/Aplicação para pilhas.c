@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<math.h>
 typedef struct node {
     int value;
     struct node * next;
@@ -107,15 +108,20 @@ int resultOfPostFixedExpression(char *expression) {
                     break;
                 case '/':
                     value = topAndPopOfStack(&pilha);
-                    if(!topOfStack(&pilha)) {
+                    if(!topOfStack(pilha)) {
                         printf("Invalid  arithmetic expression\n");
                         return 0;
                     }
                     value = value / topAndPopOfStack(&pilha);
                     pushOfStack(&pilha, value);
                     break;
-                default:
+                case '^':
+                    value = (int) pow(topAndPopOfStack(&pilha), topAndPopOfStack(&pilha));
+                    pushOfStack(&pilha, value);
                     break;
+                default:
+                    printf("Invalid  arithmetic expression\n");
+                    return 0;
             }
         }
     }
