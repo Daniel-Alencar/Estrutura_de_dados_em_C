@@ -125,5 +125,21 @@ int brother(SEQUENTIAL_BINARY_TREE *tree, int position) {
 }
 
 int isLeft(SEQUENTIAL_BINARY_TREE *tree, int position) {
-    
+    int fatherOfNode = father(tree, position);
+    if(fatherOfNode == -1)
+        return -1;
+    if(left(tree, fatherOfNode) == position)
+        return 1;
+    else
+        return 0;
+}
+
+int isRight(SEQUENTIAL_BINARY_TREE *tree, int position) {
+    int fatherOfNode = father(tree, position);
+    if(fatherOfNode == -1)
+        return -1;
+    if(right(tree, fatherOfNode) == position)
+        return 1;
+    else
+        return 0;
 }
