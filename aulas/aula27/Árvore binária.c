@@ -3,30 +3,37 @@
 #include<stdlib.h>
 
 int main() {
-    BINARY_TREE tree;
-    makeTree(&tree, 15);
-    insertElement(&tree, 10);
-    insertElement(&tree, 30);
-    insertElement(&tree, 5);
-    insertElement(&tree, 11);
-    insertElement(&tree, 12);
-    insertElement(&tree, 20);
-    insertElement(&tree, 40);
+    // BINARY_TREE tree;
+    // makeTree(&tree, 15);
+    // insertElement(&tree, 10);
+    // insertElement(&tree, 30);
+    // insertElement(&tree, 5);
+    // insertElement(&tree, 11);
+    // insertElement(&tree, 12);
+    // insertElement(&tree, 20);
+    // insertElement(&tree, 40);
     
-    preOrdem(tree);
-    printf("\n");
-    inOrdem(tree);
-    printf("\n");
-    posOrdem(tree);
-    printf("\n");
+    // preOrdem(tree);
+    // printf("\n");
+    // inOrdem(tree);
+    // printf("\n");
+    // posOrdem(tree);
+    // printf("\n\n");
 
-    remocaoPorCopia(&tree);
-    preOrdem(tree);
-    printf("\n");
-    inOrdem(tree);
-    printf("\n");
-    posOrdem(tree);
-    printf("\n");
+    // remocaoPorFusao(&tree);
+    // preOrdem(tree);
+    // printf("\n");
+    // inOrdem(tree);
+    // printf("\n");
+    // posOrdem(tree);
+    // printf("\n");
+    int i,j;
+    int vetor1[] = {5,1,9,8,7,0,3,4,5};
+    int vetor2[] = {9,8,7,6,5,4,3,2,1,0};
+    bubbleSort(vetor2, 10);
+    for(i = 0; i < 10; i++)
+        printf("%d...",vetor2[i]);
+    printf("\n\n");
 }
 
 void makeTree(BINARY_TREE *tree, int value) {
@@ -184,16 +191,18 @@ void remocaoPorFusao(BINARY_TREE *tree) {
 void remocaoPorCopia(BINARY_TREE *tree) {
     if (*tree) {
         BINARY_TREE aux = *tree;
-        if ((*tree)->right == NULL) {
+        if((*tree)->right == NULL) {
+            if((*tree)->left) {
+                (*tree)->left->father = (*tree)->father;
+            }
             *tree = (*tree)->left;
-            (*tree)->father=NULL;
         } else
-            if ((*tree)->left == NULL) {
+            if((*tree)->left == NULL) {
+                (*tree)->right->father = (*tree)->father;
                 *tree = (*tree)->right;
-                (*tree)->father=NULL;
             } else {
                 aux = (*tree)->right;
-                while (aux->left!=NULL)
+                while(aux->left)
                     aux = aux->left;
 
                 (*tree)->value = aux->value;
@@ -208,4 +217,16 @@ void remocaoPorCopia(BINARY_TREE *tree) {
             }
         free(aux);
     }
+}
+
+void bubbleSort(int *vetor, int length) {
+    int i, j;
+    for(j = 0; j < (length - 1); j++)
+        for(i = 0; i < (length - 1); i++) {
+            if(vetor[i] > vetor[i+1]) {
+                int aux = vetor[i];
+                vetor[i] = vetor[i+1];
+                vetor[i+1] = aux;
+            }
+        }
 }
