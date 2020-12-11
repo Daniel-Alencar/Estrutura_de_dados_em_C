@@ -4,8 +4,29 @@
 
 int main() {
     BINARY_TREE tree;
-    makeTree(&tree, 46);
+    makeTree(&tree, 15);
+    insertElement(&tree, 10);
+    insertElement(&tree, 30);
+    insertElement(&tree, 5);
+    insertElement(&tree, 11);
+    insertElement(&tree, 12);
+    insertElement(&tree, 20);
+    insertElement(&tree, 40);
+    
+    preOrdem(tree);
+    printf("\n");
+    inOrdem(tree);
+    printf("\n");
+    posOrdem(tree);
+    printf("\n");
 
+    remocaoPorCopia(&tree);
+    preOrdem(tree);
+    printf("\n");
+    inOrdem(tree);
+    printf("\n");
+    posOrdem(tree);
+    printf("\n");
 }
 
 void makeTree(BINARY_TREE *tree, int value) {
@@ -100,16 +121,16 @@ void preOrdem(BINARY_TREE tree) {
 
 void inOrdem(BINARY_TREE tree) {
     if(tree) {
-        preOrdem(left(tree));
+        inOrdem(left(tree));
         printf("%d...", tree->value);
-        preOrdem(right(tree));
+        inOrdem(right(tree));
     }
 }
 
 void posOrdem(BINARY_TREE tree) {
     if(tree) {
-        preOrdem(left(tree));
-        preOrdem(right(tree));
+        posOrdem(left(tree));
+        posOrdem(right(tree));
         printf("%d...", tree->value);
     }
 }
@@ -139,48 +160,7 @@ void insertElement(BINARY_TREE *tree, int value) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void insertElement(BINARY_TREE *tree, int value) {
-    if (!(*tree))
-        makeTree(tree, value);
-    else {
-        BINARY_TREE father = *tree;
-        do {
-            if (value < valueOfNode(father)) {
-                if(father->left)
-                    father = father->left;
-                else {
-                    setLeft(father, value);
-                    break;
-                }
-            } else {
-                if(father->right)
-                    father = father->right;
-                else {
-                    setRight(father, value);
-                    break;
-                }
-            }
-        } while(TRUE);
-    }
-}
-
-void removalByFusion(BINARY_TREE *tree) {
+void remocaoPorFusao(BINARY_TREE *tree) {
     if (*tree) {
         BINARY_TREE aux = *tree;
         if (!((*tree)->right))
@@ -191,9 +171,9 @@ void removalByFusion(BINARY_TREE *tree) {
             else {
                 aux = (*tree)->left;
                 while (aux->right)
-                aux = aux->right;
+                    aux = aux->right;
                 aux->right = (*tree)->right;
-                aux->right ->father= aux;
+                aux->right->father= aux;
                 aux = *tree;
                 *tree = (*tree)->left;
             }
@@ -201,7 +181,7 @@ void removalByFusion(BINARY_TREE *tree) {
     }
 }
 
-void removalByCopy(BINARY_TREE *tree) {
+void remocaoPorCopia(BINARY_TREE *tree) {
     if (*tree) {
         BINARY_TREE aux = *tree;
         if ((*tree)->right == NULL) {
@@ -227,37 +207,5 @@ void removalByCopy(BINARY_TREE *tree) {
                 }
             }
         free(aux);
-    }
-}
-
-void preOrderRoute(BINARY_TREE tree) {
-    if (tree) {
-        printf("%d...", valueOfNode(tree));
-        preOrderRoute(left(tree));
-        preOrderRoute(right(tree));
-    }
-}
-
-void postOrderRoute(BINARY_TREE tree) {
-    if (tree) {
-        postOrderRoute(left(tree));
-        postOrderRoute(right(tree));
-        printf("%d...", valueOfNode(tree));
-    }
-}
-
-void ascendingOrder(BINARY_TREE tree) {
-    if (tree) {
-        ascendingOrder(left(tree));
-        printf("%d...", valueOfNode(tree));
-        ascendingOrder(right(tree));
-    }
-}
-
-void descendingOrder(BINARY_TREE tree) {
-    if(tree) {
-        descendingOrder(right(tree));
-        printf("%d...", valueOfNode(tree));
-        descendingOrder(left(tree));
     }
 }
