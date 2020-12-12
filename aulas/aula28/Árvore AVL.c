@@ -18,6 +18,22 @@ int main() {
     rotateToRight(&tree);
     inOrdem(tree);
     printf("\n\n");
+
+    AVL_TREE tree2;
+    makeTree(&tree2, 8);
+    setLeft(tree2, 2);
+    setRight(tree2, 12);
+
+    setLeft(tree2->right, 9);
+    setRight(tree2->right, 21);
+
+    setLeft(tree2->right->right, 18);
+
+    inOrdem(tree2);
+    printf("\n\n");
+    rotateToLeft(&tree2);
+    inOrdem(tree2);
+    printf("\n\n");
 }
 
 void makeTree(AVL_TREE *tree, int value) {
@@ -139,6 +155,29 @@ void rotateToRight(AVL_TREE *tree) {
     (*tree) = aux;
 }
 
-void rotacaoParaEsquerda(AVL_TREE *tree) {
-    
+void rotateToLeft(AVL_TREE *tree) {
+
+    // Realizando as alterações
+    NODE *aux = (*tree)->right;
+    (*tree)->right = aux->left;
+    aux->left = (*tree);
+
+    // Mudando valores para o nó com o FB inválido
+    if((*tree)->right) {
+        if((*tree)->right->heightOfLeft > (*tree)->right->heightOfRight) {
+            (*tree)->heightOfRight = (*tree)->right->heightOfLeft + 1;
+        } else {
+            (*tree)->heightOfRight = (*tree)->right->heightOfRight + 1;
+        }
+    } else {
+        (*tree)->heightOfRight = 0;
+    }
+
+    // Mudando valores para o filho do nó com o FB inválido
+    if((*tree)->heightOfLeft > (*tree)->heightOfRight) {
+        aux->heightOfLeft = (*tree)->heightOfLeft + 1;
+    } else {
+        aux->heightOfLeft = (*tree)->heightOfRight + 1;
+    }
+    (*tree) = aux;
 }
