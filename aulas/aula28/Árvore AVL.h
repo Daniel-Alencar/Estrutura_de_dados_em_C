@@ -23,3 +23,5 @@ void inOrdem(AVL_TREE tree);
 void posOrdem(AVL_TREE tree);
 
 void rotateToRight(AVL_TREE *tree);
+void rotacaoParaDireita(AVL_TREE *tree);
+void rotacaoParaEsquerda(AVL_TREE *tree);

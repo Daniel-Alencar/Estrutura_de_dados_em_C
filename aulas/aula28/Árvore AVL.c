@@ -116,11 +116,7 @@ void rotateToRight(AVL_TREE *tree) {
 
     // Realizando as alterações
     NODE *aux = (*tree)->left;
-    if(aux->right) {
-        (*tree)->left = aux->right;
-    } else {
-        (*tree)->left = NULL;
-    }
+    (*tree)->left = aux->right;
     aux->right = (*tree);
 
     // Mudando valores para o nó com o FB inválido
@@ -140,6 +136,9 @@ void rotateToRight(AVL_TREE *tree) {
     } else {
         aux->heightOfRight = (*tree)->heightOfRight + 1;
     }
-
     (*tree) = aux;
+}
+
+void rotacaoParaEsquerda(AVL_TREE *tree) {
+    
 }
