@@ -181,3 +181,27 @@ void rotateToLeft(AVL_TREE *tree) {
     }
     (*tree) = aux;
 }
+
+void balanceamento(AVL_TREE *tree) {
+    if(((*tree)->heightOfRight - (*tree)->heightOfLeft) > 0) { // FB == +2
+        int FB = ((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft);
+        if(FB) { // Nó filho esquerdo == +1 ou -1
+            if(FB > 0) {
+                // FB == +1
+            } else {
+                // FB == -1
+            }
+        } else {
+            // Nó filho direito == +1 ou -1
+            
+        }
+    } else {
+        // FB == -2
+        if(((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft)) { // Nó filho esquerdo == +1 ou -1
+            
+        } else {
+            // Nó filho direito == +1 ou -1
+            
+        }
+    }
+}
