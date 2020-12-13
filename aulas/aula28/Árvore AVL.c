@@ -58,6 +58,7 @@ void setLeft(AVL_TREE tree, int value) {
     tree->left->right = NULL;
     tree->left->father = tree;
 
+    tree->left->heightOfLeft = tree->left->heightOfRight = 0;
     tree->heightOfLeft = 1;
 }
 
@@ -72,6 +73,7 @@ void setRight(AVL_TREE tree, int value) {
     tree->right->left = NULL;
     tree->right->father = tree;
 
+    tree->right->heightOfLeft = tree->right->heightOfRight = 0;
     tree->heightOfRight = 1;
 }
 
