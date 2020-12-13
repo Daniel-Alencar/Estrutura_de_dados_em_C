@@ -25,4 +25,3 @@ void posOrdem(BINARY_TREE tree);
 void insertElement(BINARY_TREE *tree, int value);
 void remocaoPorFusao(BINARY_TREE *tree);
 void remocaoPorCopia(BINARY_TREE *tree);
-void bubbleSort(int *vetor, int length);

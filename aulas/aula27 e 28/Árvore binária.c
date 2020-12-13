@@ -138,18 +138,6 @@ void insertElement(BINARY_TREE *tree, int value) {
     }
 }
 
-void bubbleSort(int *vetor, int length) {
-    int i, j;
-    for(j = 0; j < (length - 1); j++)
-        for(i = 0; i < (length - 1); i++) {
-            if(vetor[i] > vetor[i+1]) {
-                int aux = vetor[i];
-                vetor[i] = vetor[i+1];
-                vetor[i+1] = aux;
-            }
-        }
-}
-
 void remocaoPorFusao(BINARY_TREE *tree) {
     if (*tree) {
         BINARY_TREE aux = *tree;

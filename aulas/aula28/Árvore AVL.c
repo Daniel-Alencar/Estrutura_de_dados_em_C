@@ -43,7 +43,7 @@ void makeTree(AVL_TREE *tree, int value) {
         exit (1);
     }
     (*tree)->value = value;
-    (*tree)->left = (*tree)->right = NULL;
+    (*tree)->left = (*tree)->right = (*tree)->father = NULL;
     (*tree)->heightOfLeft = (*tree)->heightOfRight = 0;
 }
 
@@ -56,6 +56,8 @@ void setLeft(AVL_TREE tree, int value) {
     tree->left->value = value;
     tree->left->left = NULL;
     tree->left->right = NULL;
+    tree->left->father = tree;
+
     tree->heightOfLeft = 1;
 }
 
@@ -68,6 +70,8 @@ void setRight(AVL_TREE tree, int value) {
     tree->right->value = value;
     tree->right->right = NULL;
     tree->right->left = NULL;
+    tree->right->father = tree;
+
     tree->heightOfRight = 1;
 }
 
@@ -76,10 +80,6 @@ void setRight(AVL_TREE tree, int value) {
 
 
 int valueOfNode(AVL_TREE tree) {
-    if(tree == NULL) {
-        printf("\nThe tree is empty!\n\n");
-        exit(2);
-    }
     return tree->value;
 }
 
@@ -90,6 +90,40 @@ AVL_TREE left(AVL_TREE tree) {
 AVL_TREE right(AVL_TREE tree) {
     return tree->right;
 }
+
+AVL_TREE father(AVL_TREE tree) {
+    return tree->father;
+}
+
+AVL_TREE brother(AVL_TREE tree) {
+    if (father(tree))
+        if (isLeft(tree))
+            return right(father(tree));
+        else
+            return left(father(tree));
+    return NULL;
+}
+
+int isLeft(AVL_TREE tree) {
+    NODE *q = father(tree);
+    if (!q)
+        return (0);
+    if (left(q) == tree)
+        return (1);
+    return (0);
+}
+
+int isRight(AVL_TREE tree) {
+    if (father(tree))
+        return (!isLeft(tree));
+    return (0);
+}
+
+
+
+
+
+
 
 int heightOfRight(AVL_TREE tree) {
     return tree->heightOfRight;
@@ -183,25 +217,69 @@ void rotateToLeft(AVL_TREE *tree) {
 }
 
 void balanceamento(AVL_TREE *tree) {
-    if(((*tree)->heightOfRight - (*tree)->heightOfLeft) > 0) { // FB == +2
-        int FB = ((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft);
-        if(FB) { // Nó filho esquerdo == +1 ou -1
-            if(FB > 0) {
-                // FB == +1
-            } else {
-                // FB == -1
-            }
+    int FB_do_no = ((*tree)->heightOfRight - (*tree)->heightOfLeft);
+    int FB_do_filho;
+
+    if(FB_do_no == 2) {
+        FB_do_filho = ((*tree)->right->heightOfRight - (*tree)->right->heightOfLeft);
+
+        if(FB_do_filho >= 0) {
+            // classe 1
+            // +2 e (+1 ou 0)(direito)
+            rotateToLeft(tree);
         } else {
-            // Nó filho direito == +1 ou -1
-            
+            // classe 2
+            // +2 e -1 (direito)
+            rotateToRight(&((*tree)->right));
+            rotateToLeft(tree);
         }
     } else {
-        // FB == -2
-        if(((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft)) { // Nó filho esquerdo == +1 ou -1
-            
-        } else {
-            // Nó filho direito == +1 ou -1
-            
+        if(FB_do_no == -2) {
+            FB_do_filho = ((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft);
+            if(FB_do_filho <= 0) {
+                // classe 1
+                // -2 e (-1 ou 0)(direito)
+                rotateToRight(tree);
+            } else {
+                // classe 2
+                // -2 e +1 (direito)
+                rotateToLeft(&((*tree)->left));
+                rotateToRight(tree);
+            }
         }
     }
+}
+
+void insertElement(AVL_TREE *tree, int value) {
+    if(!(*tree)) {
+        makeTree(tree, value);
+    } else {
+        AVL_TREE father = (*tree);
+        do {
+            if(value < father->value) {
+                if(father->left) {
+                    father = father->left;
+                } else {
+                    setLeft(father, value);
+                    break;
+                }
+            } else {
+                if(father->right) {
+                    father = father->right;
+                } else {
+                    setRight(father, value);
+                    break; 
+                }
+            }
+        } while(TRUE);
+    }
+    // setar novos valores para as alturas
+
+
+    // depois de encontrado o nó errado
+    balanceamento(tree);
+}
+
+void setAlturas(AVL_TREE tree) {
+
 }
