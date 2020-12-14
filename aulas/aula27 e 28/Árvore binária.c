@@ -1,4 +1,4 @@
-#include"./Árvore binária.h"
+#include"Árvore binária.h"
 #include"Fila encadeada.h"
 #include<stdio.h>
 #include<stdlib.h>

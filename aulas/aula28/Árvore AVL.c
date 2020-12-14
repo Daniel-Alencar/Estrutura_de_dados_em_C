@@ -4,36 +4,6 @@
 
 int main() {
     AVL_TREE tree;
-    makeTree(&tree, 8);
-    setLeft(tree, 4);
-    setRight(tree, 10);
-
-    setLeft(tree->left, 2);
-    setRight(tree->left, 6);
-
-    setRight(tree->left->left, 3);
-
-    inOrdem(tree);
-    printf("\n\n");
-    rotateToRight(&tree);
-    inOrdem(tree);
-    printf("\n\n");
-
-    AVL_TREE tree2;
-    makeTree(&tree2, 8);
-    setLeft(tree2, 2);
-    setRight(tree2, 12);
-
-    setLeft(tree2->right, 9);
-    setRight(tree2->right, 21);
-
-    setLeft(tree2->right->right, 18);
-
-    inOrdem(tree2);
-    printf("\n\n");
-    rotateToLeft(&tree2);
-    inOrdem(tree2);
-    printf("\n\n");
 }
 
 void makeTree(AVL_TREE *tree, int value) {
@@ -57,8 +27,8 @@ void setLeft(AVL_TREE tree, int value) {
     tree->left->left = NULL;
     tree->left->right = NULL;
     tree->left->father = tree;
-
     tree->left->heightOfLeft = tree->left->heightOfRight = 0;
+
     tree->heightOfLeft = 1;
 }
 
@@ -72,8 +42,8 @@ void setRight(AVL_TREE tree, int value) {
     tree->right->right = NULL;
     tree->right->left = NULL;
     tree->right->father = tree;
-
     tree->right->heightOfLeft = tree->right->heightOfRight = 0;
+
     tree->heightOfRight = 1;
 }
 
@@ -163,6 +133,20 @@ void posOrdem(AVL_TREE tree) {
         printf("%d...", valueOfNode(tree));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void rotateToRight(AVL_TREE *tree) {
 
@@ -274,14 +258,14 @@ void insertElement(AVL_TREE *tree, int value) {
                 }
             }
         } while(TRUE);
+
+        while(father) {
+            int FB = father->heightOfRight - father->heightOfLeft;
+            if(FB == -2 || FB == +2) {
+                balanceamento(&father);
+                break;
+            }
+            father = father->father;
+        }
     }
-    // setar novos valores para as alturas
-
-
-    // depois de encontrado o nó errado
-    balanceamento(tree);
-}
-
-void setAlturas(AVL_TREE tree) {
-
 }

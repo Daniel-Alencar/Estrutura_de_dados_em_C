@@ -1,5 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
 #define TRUE 1
 typedef struct node {
     struct node *left;
@@ -8,7 +6,7 @@ typedef struct node {
     int value;
     int heightOfRight, heightOfLeft;
 }NODE;
-typedef NODE * AVL_TREE;
+typedef NODE *AVL_TREE;
 
 void makeTree(AVL_TREE *tree, int value);
 void setLeft(AVL_TREE tree, int value);
@@ -32,4 +30,5 @@ void posOrdem(AVL_TREE tree);
 void rotateToRight(AVL_TREE *tree);
 void rotateToLeft(AVL_TREE *tree);
 void balanceamento(AVL_TREE *tree);
-void setAlturas(AVL_TREE tree);
+
+void insertElement(AVL_TREE *tree, int value);
