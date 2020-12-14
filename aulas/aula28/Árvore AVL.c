@@ -28,8 +28,6 @@ void setLeft(AVL_TREE tree, int value) {
     tree->left->right = NULL;
     tree->left->father = tree;
     tree->left->heightOfLeft = tree->left->heightOfRight = 0;
-
-    tree->heightOfLeft = 1;
 }
 
 void setRight(AVL_TREE tree, int value) {
@@ -43,8 +41,6 @@ void setRight(AVL_TREE tree, int value) {
     tree->right->left = NULL;
     tree->right->father = tree;
     tree->right->heightOfLeft = tree->right->heightOfRight = 0;
-
-    tree->heightOfRight = 1;
 }
 
 
@@ -247,6 +243,7 @@ void insertElement(AVL_TREE *tree, int value) {
                     father = father->left;
                 } else {
                     setLeft(father, value);
+                    father = father->left;
                     break;
                 }
             } else {
@@ -254,18 +251,36 @@ void insertElement(AVL_TREE *tree, int value) {
                     father = father->right;
                 } else {
                     setRight(father, value);
+                    father = father->right;
                     break; 
                 }
             }
         } while(TRUE);
 
-        while(father) {
-            int FB = father->heightOfRight - father->heightOfLeft;
-            if(FB == -2 || FB == +2) {
+        // Recalcular valores das alturas das subárvores direita e esquerda para cada nó (partindo do valor que foi inserido até o nó raiz ou até encontrar um FB inválido(-2 ou +2))
+        while(father != (*tree)) {
+            int FB;
+            if(isLeft(father)) {
+                if(father->heightOfRight > father->heightOfLeft) {
+                    father->father->heightOfLeft = father->heightOfRight + 1;
+                } else {
+                    father->father->heightOfLeft = father->heightOfLeft + 1;
+                }
+            }
+            if(isRight(father)) {
+                if(father->heightOfRight > father->heightOfLeft) {
+                    father->father->heightOfRight = father->heightOfRight + 1;
+                } else {
+                    father->father->heightOfRight = father->heightOfLeft + 1;
+                }
+            }
+            father = father->father;
+
+            FB = father->heightOfRight - father->heightOfLeft;
+            if(FB == 2 || FB == -2) {
                 balanceamento(&father);
                 break;
             }
-            father = father->father;
         }
     }
 }
