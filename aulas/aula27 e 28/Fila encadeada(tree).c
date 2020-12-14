@@ -2,6 +2,10 @@
 #include<stdlib.h>
 #include"Fila encadeada(tree).h"
 
+int main() {
+    
+}
+
 void createLine(LINKED_LINE *line) {
     (*line) = (HEAD_NODE *) malloc(sizeof(HEAD_NODE));
     if(!(*line)) {

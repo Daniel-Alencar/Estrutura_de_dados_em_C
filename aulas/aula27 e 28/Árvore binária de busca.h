@@ -28,7 +28,8 @@ void remocaoPorFusao(BINARY_TREE *tree);
 void remocaoPorCopia(BINARY_TREE *tree);
 
 
-// Aula 28
+
+
 void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length);
 void bubbleSort(int *vetor, int length);
 void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int final);
