@@ -20,10 +20,10 @@ int main() {
 }
 
 void makeTree(AVL_TREE *tree, int value) {
-    *tree = (AVL_TREE) malloc (sizeof (NODE));
-    if (!(*tree)) {
+    *tree = (AVL_TREE)malloc(sizeof(NODE));
+    if ((*tree) == NULL) {
         printf("Erro! Nao existe memoria disponivel!");
-        exit (1);
+        exit(1);
     }
     (*tree)->value = value;
     (*tree)->left = (*tree)->right = (*tree)->father = NULL;
@@ -31,10 +31,10 @@ void makeTree(AVL_TREE *tree, int value) {
 }
 
 void setLeft(AVL_TREE tree, int value) {
-    tree->left = (AVL_TREE) malloc (sizeof (NODE));
-    if (!(tree->left)) {
+    tree->left = (AVL_TREE)malloc(sizeof(NODE));
+    if ((tree->left) == NULL) {
         printf("Erro! Nao existe memoria disponivel!");
-        exit (1);
+        exit(1);
     }
     tree->left->value = value;
     tree->left->left = NULL;
@@ -44,10 +44,10 @@ void setLeft(AVL_TREE tree, int value) {
 }
 
 void setRight(AVL_TREE tree, int value) {
-    tree->right = (AVL_TREE) malloc (sizeof (NODE));
-    if (!(tree->right)) {
+    tree->right = (AVL_TREE)malloc(sizeof(NODE));
+    if ((tree->right) == NULL) {
         printf("Erro! Nao existe memoria disponivel!");
-        exit (1);
+        exit(1);
     }
     tree->right->value = value;
     tree->right->right = NULL;
@@ -249,7 +249,7 @@ void balanceamento(AVL_TREE *tree) {
 }
 
 void insertElement(AVL_TREE *tree, int value) {
-    if(!(*tree)) {
+    if((*tree) == NULL) {
         makeTree(tree, value);
     } else {
         AVL_TREE father = (*tree);

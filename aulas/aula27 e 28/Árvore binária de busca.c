@@ -1,14 +1,11 @@
-#include"Árvore binária de busca.h"
 #include"Fila encadeada(tree).h"
-#include<stdio.h>
-#include<stdlib.h>
 
 int main() {
-    BINARY_TREE tree;
+    BINARY_TREE_BUSCA tree;
 }
 
-void makeTree(BINARY_TREE *tree, int value) {
-    *tree = (BINARY_TREE) malloc (sizeof (NODO));
+void makeTree(BINARY_TREE_BUSCA *tree, int value) {
+    *tree = (BINARY_TREE_BUSCA) malloc (sizeof (NODO));
     if (!(*tree)) {
         printf("Erro! Nao existe memoria disponivel!");
         exit (1);
@@ -17,8 +14,8 @@ void makeTree(BINARY_TREE *tree, int value) {
     (*tree)->left = (*tree)->father = (*tree)->right = NULL;
 }
 
-void setLeft(BINARY_TREE tree, int value) {
-    tree->left = (BINARY_TREE) malloc (sizeof (NODO));
+void setLeft(BINARY_TREE_BUSCA tree, int value) {
+    tree->left = (BINARY_TREE_BUSCA) malloc (sizeof (NODO));
     if (!(tree->left)) {
         printf("Erro! Nao existe memoria disponivel!");
         exit (1);
@@ -29,8 +26,8 @@ void setLeft(BINARY_TREE tree, int value) {
     tree->left->father = tree;
 }
 
-void setRight(BINARY_TREE tree, int value) {
-    tree->right = (BINARY_TREE) malloc (sizeof (NODO));
+void setRight(BINARY_TREE_BUSCA tree, int value) {
+    tree->right = (BINARY_TREE_BUSCA) malloc (sizeof (NODO));
     if (!(tree->right)) {
         printf("Erro! Nao existe memoria disponivel!");
         exit (1);
@@ -41,7 +38,7 @@ void setRight(BINARY_TREE tree, int value) {
     tree->right->father = tree;
 }
 
-int valueOfNodo(BINARY_TREE tree) {
+int valueOfNodo(BINARY_TREE_BUSCA tree) {
     if(tree == NULL) {
         printf("\nThe tree is empty!\n\n");
         exit(2);
@@ -49,19 +46,19 @@ int valueOfNodo(BINARY_TREE tree) {
     return tree->value;
 }
 
-BINARY_TREE left(BINARY_TREE tree) {
+BINARY_TREE_BUSCA left(BINARY_TREE_BUSCA tree) {
     return tree->left;
 }
 
-BINARY_TREE right(BINARY_TREE tree) {
+BINARY_TREE_BUSCA right(BINARY_TREE_BUSCA tree) {
     return tree->right;
 }
 
-BINARY_TREE father(BINARY_TREE tree) {
+BINARY_TREE_BUSCA father(BINARY_TREE_BUSCA tree) {
     return tree->father;
 }
 
-BINARY_TREE brother(BINARY_TREE tree) {
+BINARY_TREE_BUSCA brother(BINARY_TREE_BUSCA tree) {
     if (father(tree))
         if (isLeft(tree))
             return right(father(tree));
@@ -70,7 +67,7 @@ BINARY_TREE brother(BINARY_TREE tree) {
     return NULL;
 }
 
-int isLeft(BINARY_TREE tree) {
+int isLeft(BINARY_TREE_BUSCA tree) {
     NODO *q = father(tree);
     if (!q)
         return (0);
@@ -79,13 +76,13 @@ int isLeft(BINARY_TREE tree) {
     return (0);
 }
 
-int isRight(BINARY_TREE tree) {
+int isRight(BINARY_TREE_BUSCA tree) {
     if (father(tree))
         return (!isLeft(tree));
     return (0);
 }
 
-void percursoEmLargura(BINARY_TREE tree) {
+void percursoEmLargura(BINARY_TREE_BUSCA tree) {
     LINKED_LINE fila;
     createLine(&fila);
 
@@ -105,7 +102,7 @@ void percursoEmLargura(BINARY_TREE tree) {
     }
 }
 
-void preOrdem(BINARY_TREE tree) {
+void preOrdem(BINARY_TREE_BUSCA tree) {
     if(tree) {
         printf("%d...", tree->value);
         preOrdem(left(tree));
@@ -113,7 +110,7 @@ void preOrdem(BINARY_TREE tree) {
     }
 }
 
-void inOrdem(BINARY_TREE tree) {
+void inOrdem(BINARY_TREE_BUSCA tree) {
     if(tree) {
         inOrdem(left(tree));
         printf("%d...", tree->value);
@@ -121,7 +118,7 @@ void inOrdem(BINARY_TREE tree) {
     }
 }
 
-void posOrdem(BINARY_TREE tree) {
+void posOrdem(BINARY_TREE_BUSCA tree) {
     if(tree) {
         posOrdem(left(tree));
         posOrdem(right(tree));
@@ -129,11 +126,11 @@ void posOrdem(BINARY_TREE tree) {
     }
 }
 
-void insertElement(BINARY_TREE *tree, int value) {
+void insertElement(BINARY_TREE_BUSCA *tree, int value) {
     if(!(*tree)) {
         makeTree(tree, value);
     } else {
-        BINARY_TREE father = (*tree);
+        BINARY_TREE_BUSCA father = (*tree);
         do {
             if(value < father->value) {
                 if(father->left) {
@@ -154,9 +151,9 @@ void insertElement(BINARY_TREE *tree, int value) {
     }
 }
 
-void remocaoPorFusao(BINARY_TREE *tree) {
+void remocaoPorFusao(BINARY_TREE_BUSCA *tree) {
     if (*tree) {
-        BINARY_TREE aux = *tree;
+        BINARY_TREE_BUSCA aux = *tree;
         if (((*tree)->right) == NULL) {
             if((*tree)->left) {
                 (*tree)->left->father = (*tree)->father;
@@ -180,9 +177,9 @@ void remocaoPorFusao(BINARY_TREE *tree) {
     }
 }
 
-void remocaoPorCopia(BINARY_TREE *tree) {
+void remocaoPorCopia(BINARY_TREE_BUSCA *tree) {
     if (*tree) {
-        BINARY_TREE aux = *tree;
+        BINARY_TREE_BUSCA aux = *tree;
         if (((*tree)->right) == NULL) {
             if((*tree)->left) {
                 (*tree)->left->father = (*tree)->father;
@@ -231,7 +228,7 @@ void remocaoPorCopia(BINARY_TREE *tree) {
 
 
 
-void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length) {
+void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE_BUSCA tree, int *vetor, int *length) {
     LINKED_LINE line;
     createLine(&line);
 
@@ -246,7 +243,7 @@ void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *lengt
             printf("\nNão há espaço suficiente\n");
             exit(1);
         }
-        BINARY_TREE aux = returnElementFromLine(line);
+        BINARY_TREE_BUSCA aux = returnElementFromLine(line);
         vetor[(*length) - 1] = valueOfNodo(aux);
         
         if(left(aux)) {
@@ -272,7 +269,7 @@ void bubbleSort(int *vetor, int length) {
     }
 }
 
-void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int final) {
+void balancearArvoreBinariaAux(BINARY_TREE_BUSCA *tree, int vetor[], int inicio, int final) {
     if(inicio <= final) {
         int meio = (inicio + final) / 2;
         insertElement(tree, vetor[meio]);
@@ -281,7 +278,7 @@ void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int f
     }
 }
 
-void balancearArvoreBinaria(BINARY_TREE *tree) {
+void balancearArvoreBinaria(BINARY_TREE_BUSCA *tree) {
     int *vetor, length;
     percursoEmLarguraArmazenadoEmVetor(*tree, vetor, &length);
     bubbleSort(vetor, length);

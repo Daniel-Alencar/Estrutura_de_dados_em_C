@@ -5,32 +5,29 @@ typedef struct nodo {
     struct nodo *father;
     int value;
 }NODO;
-typedef NODO *BINARY_TREE;
+typedef NODO *BINARY_TREE_BUSCA;
 
-void makeTree(BINARY_TREE *tree, int value);
-void setLeft(BINARY_TREE tree, int value);
-void setRight(BINARY_TREE tree, int value);
-int valueOfNodo(BINARY_TREE tree);
-BINARY_TREE left(BINARY_TREE tree);
-BINARY_TREE right(BINARY_TREE tree);
-BINARY_TREE father(BINARY_TREE tree);
-BINARY_TREE brother(BINARY_TREE tree);
-int isLeft(BINARY_TREE tree);
-int isRight(BINARY_TREE tree);
+void makeTree(BINARY_TREE_BUSCA *tree, int value);
+void setLeft(BINARY_TREE_BUSCA tree, int value);
+void setRight(BINARY_TREE_BUSCA tree, int value);
+int valueOfNodo(BINARY_TREE_BUSCA tree);
+BINARY_TREE_BUSCA left(BINARY_TREE_BUSCA tree);
+BINARY_TREE_BUSCA right(BINARY_TREE_BUSCA tree);
+BINARY_TREE_BUSCA father(BINARY_TREE_BUSCA tree);
+BINARY_TREE_BUSCA brother(BINARY_TREE_BUSCA tree);
+int isLeft(BINARY_TREE_BUSCA tree);
+int isRight(BINARY_TREE_BUSCA tree);
 
-void percursoEmLargura(BINARY_TREE tree);
-void preOrdem(BINARY_TREE tree);
-void inOrdem(BINARY_TREE tree);
-void posOrdem(BINARY_TREE tree);
+void percursoEmLargura(BINARY_TREE_BUSCA tree);
+void preOrdem(BINARY_TREE_BUSCA tree);
+void inOrdem(BINARY_TREE_BUSCA tree);
+void posOrdem(BINARY_TREE_BUSCA tree);
 
-void insertElement(BINARY_TREE *tree, int value);
-void remocaoPorFusao(BINARY_TREE *tree);
-void remocaoPorCopia(BINARY_TREE *tree);
+void insertElement(BINARY_TREE_BUSCA *tree, int value);
+void remocaoPorFusao(BINARY_TREE_BUSCA *tree);
+void remocaoPorCopia(BINARY_TREE_BUSCA *tree);
 
-
-
-
-void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length);
+void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE_BUSCA tree, int *vetor, int *length);
 void bubbleSort(int *vetor, int length);
-void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int final);
-void balancearArvoreBinaria(BINARY_TREE *tree);
+void balancearArvoreBinariaAux(BINARY_TREE_BUSCA *tree, int vetor[], int inicio, int final);
+void balancearArvoreBinaria(BINARY_TREE_BUSCA *tree);
