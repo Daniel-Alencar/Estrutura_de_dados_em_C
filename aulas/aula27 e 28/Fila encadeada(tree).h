@@ -1,4 +1,4 @@
-#include"Árvore binária.h"
+#include"Árvore binária de busca.h"
 typedef struct node {
     BINARY_TREE tree;
     struct node * next;

@@ -4,6 +4,19 @@
 
 int main() {
     AVL_TREE tree;
+    insertElement(&tree, 8);
+    insertElement(&tree, 4);
+    insertElement(&tree, 10);
+    insertElement(&tree, 2);
+    insertElement(&tree, 6);
+    printf("In-ordem: ");
+    inOrdem(tree);
+    printf("\n");
+
+    insertElement(&tree, 3);
+    printf("In-ordem: ");
+    inOrdem(tree);
+    printf("\n");
 }
 
 void makeTree(AVL_TREE *tree, int value) {
@@ -202,6 +215,7 @@ void balanceamento(AVL_TREE *tree) {
     int FB_do_no = ((*tree)->heightOfRight - (*tree)->heightOfLeft);
     int FB_do_filho;
 
+    printf("1\n");
     if(FB_do_no == 2) {
         FB_do_filho = ((*tree)->right->heightOfRight - (*tree)->right->heightOfLeft);
 
@@ -217,10 +231,12 @@ void balanceamento(AVL_TREE *tree) {
         }
     } else {
         if(FB_do_no == -2) {
+            printf("2\n");
             FB_do_filho = ((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft);
             if(FB_do_filho <= 0) {
                 // classe 1
                 // -2 e (-1 ou 0)(direito)
+                printf("3\n");
                 rotateToRight(tree);
             } else {
                 // classe 2

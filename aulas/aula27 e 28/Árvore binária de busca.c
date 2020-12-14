@@ -1,5 +1,5 @@
-#include"Árvore binária.h"
-#include"Fila encadeada.h"
+#include"Árvore binária de busca.h"
+#include"Fila encadeada(tree).h"
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -85,6 +85,26 @@ int isRight(BINARY_TREE tree) {
     return (0);
 }
 
+void percursoEmLargura(BINARY_TREE tree) {
+    LINKED_LINE fila;
+    createLine(&fila);
+
+    if(tree) {
+        insertElementIntoLine(fila, tree);
+    }
+    while(lineIsEmpty(fila) == 0) {
+        printf("%d...", valueOfNodo(returnElementFromLine(fila)));
+
+        if(left(returnElementFromLine(fila))) {
+            insertElementIntoLine(fila, left(returnElementFromLine(fila)));
+        }
+        if(right(returnElementFromLine(fila))) {
+            insertElementIntoLine(fila, right(returnElementFromLine(fila)));
+        }
+        deleteElementFromLine(fila);
+    }
+}
+
 void preOrdem(BINARY_TREE tree) {
     if(tree) {
         printf("%d...", tree->value);
@@ -137,11 +157,16 @@ void insertElement(BINARY_TREE *tree, int value) {
 void remocaoPorFusao(BINARY_TREE *tree) {
     if (*tree) {
         BINARY_TREE aux = *tree;
-        if (!((*tree)->right))
-            *tree = (*tree)->left;
-        else
-            if ((*tree)->left == NULL)
-                *tree = (*tree)->right;
+        if (((*tree)->right) == NULL) {
+            if((*tree)->left) {
+                (*tree)->left->father = (*tree)->father;
+            }
+            (*tree) = (*tree)->left;
+        } else
+            if ((*tree)->left == NULL) {
+                (*tree)->right->father = (*tree)->father; 
+                (*tree) = (*tree)->right;
+            }
             else {
                 aux = (*tree)->left;
                 while (aux->right)
@@ -149,7 +174,7 @@ void remocaoPorFusao(BINARY_TREE *tree) {
                 aux->right = (*tree)->right;
                 aux->right->father= aux;
                 aux = *tree;
-                *tree = (*tree)->left;
+                (*tree) = (*tree)->left;
             }
         free(aux);
     }
@@ -158,23 +183,23 @@ void remocaoPorFusao(BINARY_TREE *tree) {
 void remocaoPorCopia(BINARY_TREE *tree) {
     if (*tree) {
         BINARY_TREE aux = *tree;
-        if((*tree)->right == NULL) {
+        if (((*tree)->right) == NULL) {
             if((*tree)->left) {
                 (*tree)->left->father = (*tree)->father;
             }
-            *tree = (*tree)->left;
+            (*tree) = (*tree)->left;
         } else
-            if((*tree)->left == NULL) {
-                (*tree)->right->father = (*tree)->father;
-                *tree = (*tree)->right;
-            } else {
+            if ((*tree)->left == NULL) {
+                (*tree)->right->father = (*tree)->father; 
+                (*tree) = (*tree)->right;
+            }
+            else {
                 aux = (*tree)->right;
-                while(aux->left)
+                while (aux->left)
                     aux = aux->left;
-
                 (*tree)->value = aux->value;
 
-                if (aux->father == *tree) {
+                if(aux->father == (*tree)) {
                     aux->father->right = aux->right;
                     aux->father->right->father = aux->father;
                 } else {
@@ -186,25 +211,25 @@ void remocaoPorCopia(BINARY_TREE *tree) {
     }
 }
 
-void percursoEmLargura(BINARY_TREE tree) {
-    LINKED_LINE fila;
-    createLine(&fila);
 
-    if(tree) {
-        insertElementIntoLine(fila, tree);
-    }
-    while(lineIsEmpty(fila) == 0) {
-        printf("%d...", valueOfNodo(returnElementFromLine(fila)));
 
-        if(left(returnElementFromLine(fila))) {
-            insertElementIntoLine(fila, left(returnElementFromLine(fila)));
-        }
-        if(right(returnElementFromLine(fila))) {
-            insertElementIntoLine(fila, right(returnElementFromLine(fila)));
-        }
-        deleteElementFromLine(fila);
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length) {
     LINKED_LINE line;

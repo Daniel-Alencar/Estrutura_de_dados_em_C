@@ -18,15 +18,18 @@ BINARY_TREE brother(BINARY_TREE tree);
 int isLeft(BINARY_TREE tree);
 int isRight(BINARY_TREE tree);
 
+void percursoEmLargura(BINARY_TREE tree);
 void preOrdem(BINARY_TREE tree);
 void inOrdem(BINARY_TREE tree);
 void posOrdem(BINARY_TREE tree);
+
 void insertElement(BINARY_TREE *tree, int value);
 void remocaoPorFusao(BINARY_TREE *tree);
 void remocaoPorCopia(BINARY_TREE *tree);
-void percursoEmLargura(BINARY_TREE tree);
-void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length);
 
+
+// Aula 28
+void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length);
 void bubbleSort(int *vetor, int length);
 void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int final);
 void balancearArvoreBinaria(BINARY_TREE *tree);
