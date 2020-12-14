@@ -1,18 +1,14 @@
 #include"./Árvore binária.h"
+#include"Fila encadeada.h"
 #include<stdio.h>
 #include<stdlib.h>
 
 int main() {
     BINARY_TREE tree;
-    int i,j;
-    int vetor2[] = {9,8,7,6,5,4,3,2,1,0};
-    bubbleSort(vetor2, 10);
-    organizarNaArvore(&tree, vetor2, 10);
-    inOrdem(tree);
 }
 
 void makeTree(BINARY_TREE *tree, int value) {
-    *tree = (BINARY_TREE) malloc (sizeof (NODE));
+    *tree = (BINARY_TREE) malloc (sizeof (NODO));
     if (!(*tree)) {
         printf("Erro! Nao existe memoria disponivel!");
         exit (1);
@@ -22,7 +18,7 @@ void makeTree(BINARY_TREE *tree, int value) {
 }
 
 void setLeft(BINARY_TREE tree, int value) {
-    tree->left = (BINARY_TREE) malloc (sizeof (NODE));
+    tree->left = (BINARY_TREE) malloc (sizeof (NODO));
     if (!(tree->left)) {
         printf("Erro! Nao existe memoria disponivel!");
         exit (1);
@@ -34,7 +30,7 @@ void setLeft(BINARY_TREE tree, int value) {
 }
 
 void setRight(BINARY_TREE tree, int value) {
-    tree->right = (BINARY_TREE) malloc (sizeof (NODE));
+    tree->right = (BINARY_TREE) malloc (sizeof (NODO));
     if (!(tree->right)) {
         printf("Erro! Nao existe memoria disponivel!");
         exit (1);
@@ -45,7 +41,7 @@ void setRight(BINARY_TREE tree, int value) {
     tree->right->father = tree;
 }
 
-int valueOfNode(BINARY_TREE tree) {
+int valueOfNodo(BINARY_TREE tree) {
     if(tree == NULL) {
         printf("\nThe tree is empty!\n\n");
         exit(2);
@@ -75,7 +71,7 @@ BINARY_TREE brother(BINARY_TREE tree) {
 }
 
 int isLeft(BINARY_TREE tree) {
-    NODE *q = father(tree);
+    NODO *q = father(tree);
     if (!q)
         return (0);
     if (left(q) == tree)
@@ -191,5 +187,41 @@ void remocaoPorCopia(BINARY_TREE *tree) {
 }
 
 void percursoEmLargura(BINARY_TREE tree) {
+    LINKED_LINE fila;
+    createLine(&fila);
 
+    if(tree) {
+        insertElementIntoLine(fila, tree);
+    }
+    while(lineIsEmpty(fila) == 0) {
+        printf("%d...", valueOfNodo(returnElementFromLine(fila)));
+
+        if(left(returnElementFromLine(fila))) {
+            insertElementIntoLine(fila, left(returnElementFromLine(fila)));
+        }
+        if(right(returnElementFromLine(fila))) {
+            insertElementIntoLine(fila, right(returnElementFromLine(fila)));
+        }
+        deleteElementFromLine(fila);
+    }
+}
+
+void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length) {
+    LINKED_LINE line;
+    createLine(&line);
+
+    if(tree) {
+        insertElementIntoLine(line, tree);
+    }
+    while(lineIsEmpty(line) == 0) {
+        BINARY_TREE aux = returnElementFromLine(line);
+        printf("%d...", valueOfNodo(aux));
+        if(left(aux)) {
+            insertElementIntoLine(line, left(aux));
+        }
+        if(right(aux)) {
+            insertElementIntoLine(line, right(aux));
+        }
+        deleteElementFromLine(line);
+    }
 }

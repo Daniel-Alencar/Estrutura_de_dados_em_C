@@ -1,8 +1,6 @@
-#define BASE 10
-#define MAXIMUM_DIGITS 4
-
+#include"Árvore binária.h"
 typedef struct node {
-    int value;
+    BINARY_TREE tree;
     struct node * next;
 }NODE;
 typedef struct {
@@ -13,13 +11,12 @@ typedef struct {
 typedef HEAD_NODE *LINKED_LINE ;
 
 void createLine(LINKED_LINE *line);
-int isEmpty(LINKED_LINE line);
-void insertElement(LINKED_LINE line, int value);
-int returnFirstElement(LINKED_LINE line);
-void deleteFirstElement(LINKED_LINE line);
-int returnAndDeleteElement(LINKED_LINE line);
+int lineIsEmpty(LINKED_LINE line);
+void insertElementIntoLine(LINKED_LINE line, BINARY_TREE tree);
+BINARY_TREE returnElementFromLine(LINKED_LINE line);
+void deleteElementFromLine(LINKED_LINE line);
+BINARY_TREE returnAndDeleteElementFromLine(LINKED_LINE line);
 void destroyLine1(LINKED_LINE line);
 void destroyLine2(LINKED_LINE line);
-void sortByDistribution(LINKED_LINE line);
-void printLine(LINKED_LINE line);
 int lengthOfLine(LINKED_LINE line);
+void printLine(LINKED_LINE line);
