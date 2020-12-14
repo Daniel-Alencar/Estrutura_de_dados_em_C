@@ -212,10 +212,18 @@ void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *lengt
 
     if(tree) {
         insertElementIntoLine(line, tree);
+        *length = 0;
+        vetor = NULL;
     }
     while(lineIsEmpty(line) == 0) {
+        vetor = (int *)realloc(vetor, (++(*length) * sizeof(int)));
+        if(vetor == NULL) {
+            printf("\nNão há espaço suficiente\n");
+            exit(1);
+        }
         BINARY_TREE aux = returnElementFromLine(line);
-        printf("%d...", valueOfNodo(aux));
+        vetor[(*length) - 1] = valueOfNodo(aux);
+        
         if(left(aux)) {
             insertElementIntoLine(line, left(aux));
         }
@@ -224,4 +232,37 @@ void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *lengt
         }
         deleteElementFromLine(line);
     }
+}
+
+void bubbleSort(int *vetor, int length) {
+    int i, j;
+    for(j = 0; j < (length - 1); j++) {
+        for(i = 0; i < (length - 1); i++) {
+            if(vetor[i] > vetor[i+1]) {
+                int aux = vetor[i];
+                vetor[i] = vetor[i+1];
+                vetor[i+1] = aux;
+            }
+        }
+    }
+}
+
+void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int final) {
+    if(inicio <= final) {
+        int meio = (inicio + final) / 2;
+        insertElement(tree, vetor[meio]);
+        balancearArvoreBinariaAux(tree, vetor, inicio, meio - 1);
+        balancearArvoreBinariaAux(tree, vetor, meio + 1, final);
+    }
+}
+
+void balancearArvoreBinaria(BINARY_TREE *tree) {
+    int *vetor, length;
+    percursoEmLarguraArmazenadoEmVetor(*tree, vetor, &length);
+    bubbleSort(vetor, length);
+    while(*tree) {
+        remocaoPorCopia(tree);
+    }
+    balancearArvoreBinariaAux(tree, vetor, 0, length - 1);
+    free(vetor);
 }

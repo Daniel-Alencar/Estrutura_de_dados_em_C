@@ -26,3 +26,7 @@ void remocaoPorFusao(BINARY_TREE *tree);
 void remocaoPorCopia(BINARY_TREE *tree);
 void percursoEmLargura(BINARY_TREE tree);
 void percursoEmLarguraArmazenadoEmVetor(BINARY_TREE tree, int *vetor, int *length);
+
+void bubbleSort(int *vetor, int length);
+void balancearArvoreBinariaAux(BINARY_TREE *tree, int vetor[], int inicio, int final);
+void balancearArvoreBinaria(BINARY_TREE *tree);
