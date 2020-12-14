@@ -1,10 +1,9 @@
-#include"./Árvore binária.h"
+#include"Árvore binária.h"
 #include<stdio.h>
 #include<stdlib.h>
 
 int main() {
     BINARY_TREE tree;
-    makeTree(&tree, 46);
 }
 
 void makeTree(BINARY_TREE *tree, int value) {
