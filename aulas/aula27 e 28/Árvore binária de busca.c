@@ -8,11 +8,16 @@ int main() {
     insertElement(&tree, 2);
     insertElement(&tree, 6);
     insertElement(&tree, 3);
-
-    inOrdem(tree);
-    printf("\n\n");
+    printf("Antes de balancear...\n");
     preOrdem(tree);
+    printf("\n");
+    posOrdem(tree);
     printf("\n\n");
+
+    balancearArvoreBinaria(&tree);
+    printf("Depois de balancear...\n");
+    preOrdem(tree);
+    printf("\n");
     posOrdem(tree);
     printf("\n\n");
 }

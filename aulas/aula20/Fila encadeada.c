@@ -132,7 +132,7 @@ void printLine(LINKED_LINE line) {
 
 void sortByDistribution(LINKED_LINE line) {
     int i,acumulate, base = 10, digitos = 4;
-    LINKED_LINE * filas = (LINKED_LINE *) malloc(sizeof(LINKED_LINE) * base);
+    LINKED_LINE filas[base];
     for(i=0;i<base;i++) {
         createLine(&filas[i]);
     }
@@ -149,5 +149,4 @@ void sortByDistribution(LINKED_LINE line) {
             }
         }
     }
-    free(filas);
-} 
+}
