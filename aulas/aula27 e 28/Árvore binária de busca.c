@@ -2,6 +2,19 @@
 
 int main() {
     BINARY_TREE_BUSCA tree;
+    insertElement(&tree, 8);
+    insertElement(&tree, 4);
+    insertElement(&tree, 10);
+    insertElement(&tree, 2);
+    insertElement(&tree, 6);
+    insertElement(&tree, 3);
+
+    inOrdem(tree);
+    printf("\n\n");
+    preOrdem(tree);
+    printf("\n\n");
+    posOrdem(tree);
+    printf("\n\n");
 }
 
 void makeTree(BINARY_TREE_BUSCA *tree, int value) {

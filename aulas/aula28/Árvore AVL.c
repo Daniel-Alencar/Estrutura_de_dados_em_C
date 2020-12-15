@@ -13,6 +13,10 @@ int main() {
 
     inOrdem(tree);
     printf("\n\n");
+    preOrdem(tree);
+    printf("\n\n");
+    posOrdem(tree);
+    printf("\n\n");
 }
 
 void makeTree(AVL_TREE *tree, int value) {
@@ -251,7 +255,7 @@ void setNewAlturas(AVL_TREE *raiz, AVL_TREE *noInserido) {
         root = root->right;
         setNewAlturas(&root, noInserido);
     }
-        
+
     if(root->right == NULL && root->left == NULL) {
         root->heightOfLeft = root->heightOfRight = 0;
     } else {

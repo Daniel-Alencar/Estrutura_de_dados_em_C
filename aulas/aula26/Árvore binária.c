@@ -3,7 +3,7 @@
 #include<stdlib.h>
 
 int main() {
-    BINARY_TREE tree;
+
 }
 
 void makeTree(BINARY_TREE *tree, int value) {
