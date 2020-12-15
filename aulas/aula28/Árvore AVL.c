@@ -9,14 +9,10 @@ int main() {
     insertElement(&tree, 10);
     insertElement(&tree, 2);
     insertElement(&tree, 6);
-    printf("In-ordem: ");
-    inOrdem(tree);
-    printf("\n");
-
     insertElement(&tree, 3);
-    printf("In-ordem: ");
+
     inOrdem(tree);
-    printf("\n");
+    printf("\n\n");
 }
 
 void makeTree(AVL_TREE *tree, int value) {
@@ -26,7 +22,7 @@ void makeTree(AVL_TREE *tree, int value) {
         exit(1);
     }
     (*tree)->value = value;
-    (*tree)->left = (*tree)->right = (*tree)->father = NULL;
+    (*tree)->left = (*tree)->right = NULL;
     (*tree)->heightOfLeft = (*tree)->heightOfRight = 0;
 }
 
@@ -39,7 +35,6 @@ void setLeft(AVL_TREE tree, int value) {
     tree->left->value = value;
     tree->left->left = NULL;
     tree->left->right = NULL;
-    tree->left->father = tree;
     tree->left->heightOfLeft = tree->left->heightOfRight = 0;
 }
 
@@ -52,7 +47,6 @@ void setRight(AVL_TREE tree, int value) {
     tree->right->value = value;
     tree->right->right = NULL;
     tree->right->left = NULL;
-    tree->right->father = tree;
     tree->right->heightOfLeft = tree->right->heightOfRight = 0;
 }
 
@@ -71,35 +65,6 @@ AVL_TREE left(AVL_TREE tree) {
 AVL_TREE right(AVL_TREE tree) {
     return tree->right;
 }
-
-AVL_TREE father(AVL_TREE tree) {
-    return tree->father;
-}
-
-AVL_TREE brother(AVL_TREE tree) {
-    if (father(tree))
-        if (isLeft(tree))
-            return right(father(tree));
-        else
-            return left(father(tree));
-    return NULL;
-}
-
-int isLeft(AVL_TREE tree) {
-    NODE *q = father(tree);
-    if (!q)
-        return (0);
-    if (left(q) == tree)
-        return (1);
-    return (0);
-}
-
-int isRight(AVL_TREE tree) {
-    if (father(tree))
-        return (!isLeft(tree));
-    return (0);
-}
-
 
 
 
@@ -215,7 +180,6 @@ void balanceamento(AVL_TREE *tree) {
     int FB_do_no = ((*tree)->heightOfRight - (*tree)->heightOfLeft);
     int FB_do_filho;
 
-    printf("1\n");
     if(FB_do_no == 2) {
         FB_do_filho = ((*tree)->right->heightOfRight - (*tree)->right->heightOfLeft);
 
@@ -231,7 +195,6 @@ void balanceamento(AVL_TREE *tree) {
         }
     } else {
         if(FB_do_no == -2) {
-            printf("2\n");
             FB_do_filho = ((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft);
             if(FB_do_filho <= 0) {
                 // classe 1
@@ -272,31 +235,45 @@ void insertElement(AVL_TREE *tree, int value) {
                 }
             }
         } while(TRUE);
+        setNewAlturas(tree, &father);
+    }
+}
 
-        // Recalcular valores das alturas das subárvores direita e esquerda para cada nó (partindo do valor que foi inserido até o nó raiz ou até encontrar um FB inválido(-2 ou +2))
-        while(father != (*tree)) {
-            int FB;
-            if(isLeft(father)) {
-                if(father->heightOfRight > father->heightOfLeft) {
-                    father->father->heightOfLeft = father->heightOfRight + 1;
-                } else {
-                    father->father->heightOfLeft = father->heightOfLeft + 1;
-                }
-            }
-            if(isRight(father)) {
-                if(father->heightOfRight > father->heightOfLeft) {
-                    father->father->heightOfRight = father->heightOfRight + 1;
-                } else {
-                    father->father->heightOfRight = father->heightOfLeft + 1;
-                }
-            }
-            father = father->father;
+void setNewAlturas(AVL_TREE *raiz, AVL_TREE *noInserido) {
+    AVL_TREE root = (*raiz);
+    AVL_TREE father = (*noInserido);
+    int FB;
 
-            FB = father->heightOfRight - father->heightOfLeft;
-            if(FB == 2 || FB == -2) {
-                balanceamento(&father);
-                break;
+    if(father->value < root->value) {
+        root = root->left;
+        setNewAlturas(&root, noInserido);
+    } else if(father->value > root->value) {
+        root = root->right;
+        setNewAlturas(&root, noInserido);
+    }
+        
+    if(root->right == NULL && root->left == NULL) {
+        root->heightOfLeft = root->heightOfRight = 0;
+    } else {
+        if(root->right) {
+            if(root->right->heightOfRight > root->right->heightOfLeft) {
+                root->heightOfRight = root->right->heightOfRight + 1;
+            } else {
+                root->heightOfRight = root->right->heightOfLeft + 1;
             }
         }
+        if(root->left) {
+            if(root->left->heightOfRight > root->left->heightOfLeft) {
+                root->heightOfLeft = root->left->heightOfRight + 1;
+            } else {
+                root->heightOfLeft = root->left->heightOfLeft + 1;
+            }
+        }
+    }
+
+    FB = root->heightOfRight - root->heightOfLeft;
+    if(FB == 2 || FB == -2) {
+        balanceamento(&root);
+        return;
     }
 }
