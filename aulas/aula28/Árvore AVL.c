@@ -9,18 +9,12 @@ int main() {
     insertElement(&tree, 10);
     insertElement(&tree, 2);
     insertElement(&tree, 6);
-    printf("Antes de balancear...\n");
-    preOrdem(tree);
-    printf("\n");
-    posOrdem(tree);
-    printf("\n\n");
-
     insertElement(&tree, 3);
-    printf("Depois de balancear...\n");
-    preOrdem(tree);
-    printf("\n");
-    posOrdem(tree);
-    printf("\n\n");
+    insertElement(&tree, 5);
+    insertElement(&tree, 11);
+    insertElement(&tree, 9);
+    insertElement(&tree, 1);
+    insertElement(&tree, 0);
 }
 
 void makeTree(AVL_TREE *tree, int value) {
@@ -137,7 +131,7 @@ void rotateToRight(AVL_TREE *tree) {
     (*tree)->left = aux->right;
     aux->right = (*tree);
 
-    // Mudando valores para o nó com o FB inválido
+    // Mudando valores para o nó que antes tinha o FB inválido
     if((*tree)->left) {
         if((*tree)->left->heightOfLeft > (*tree)->left->heightOfRight) {
             (*tree)->heightOfLeft = (*tree)->left->heightOfLeft + 1;
@@ -148,7 +142,7 @@ void rotateToRight(AVL_TREE *tree) {
         (*tree)->heightOfLeft = 0;
     }
 
-    // Mudando valores para o filho do nó com o FB inválido
+    // Mudando valores para o ex-filho do nó que tinha anteriormente o FB inválido
     if((*tree)->heightOfLeft > (*tree)->heightOfRight) {
         aux->heightOfRight = (*tree)->heightOfLeft + 1;
     } else {
@@ -164,7 +158,7 @@ void rotateToLeft(AVL_TREE *tree) {
     (*tree)->right = aux->left;
     aux->left = (*tree);
 
-    // Mudando valores para o nó com o FB inválido
+    // Mudando valores para o nó que antes tinha o FB inválido
     if((*tree)->right) {
         if((*tree)->right->heightOfLeft > (*tree)->right->heightOfRight) {
             (*tree)->heightOfRight = (*tree)->right->heightOfLeft + 1;
@@ -175,7 +169,7 @@ void rotateToLeft(AVL_TREE *tree) {
         (*tree)->heightOfRight = 0;
     }
 
-    // Mudando valores para o filho do nó com o FB inválido
+    // Mudando valores para o ex-filho do nó que tinha anteriormente o FB inválido
     if((*tree)->heightOfLeft > (*tree)->heightOfRight) {
         aux->heightOfLeft = (*tree)->heightOfLeft + 1;
     } else {
@@ -193,11 +187,11 @@ void balanceamento(AVL_TREE *tree) {
 
         if(FB_do_filho >= 0) {
             // classe 1
-            // +2 e (+1 ou 0)(direito)
+            // +2 e (+1 ou 0)
             rotateToLeft(tree);
         } else {
             // classe 2
-            // +2 e -1 (direito)
+            // +2 e -1 
             rotateToRight(&((*tree)->right));
             rotateToLeft(tree);
         }
@@ -206,12 +200,11 @@ void balanceamento(AVL_TREE *tree) {
             FB_do_filho = ((*tree)->left->heightOfRight - (*tree)->left->heightOfLeft);
             if(FB_do_filho <= 0) {
                 // classe 1
-                // -2 e (-1 ou 0)(direito)
-                printf("3\n");
+                // -2 e (-1 ou 0)
                 rotateToRight(tree);
             } else {
                 // classe 2
-                // -2 e +1 (direito)
+                // -2 e +1 
                 rotateToLeft(&((*tree)->left));
                 rotateToRight(tree);
             }
@@ -248,16 +241,16 @@ void insertElement(AVL_TREE *tree, int value) {
 }
 
 void setNewAlturas(AVL_TREE *raiz, AVL_TREE *noInserido) {
-    AVL_TREE root = (*raiz);
-    AVL_TREE father = (*noInserido);
+    NODE * root = (*raiz);
+    NODE * father = (*noInserido);
     int FB;
 
     if(father->value < root->value) {
         root = root->left;
-        setNewAlturas(&root, noInserido);
+        setNewAlturas(&root, &father);
     } else if(father->value > root->value) {
         root = root->right;
-        setNewAlturas(&root, noInserido);
+        setNewAlturas(&root, &father);
     }
 
     if(root->right == NULL && root->left == NULL) {
