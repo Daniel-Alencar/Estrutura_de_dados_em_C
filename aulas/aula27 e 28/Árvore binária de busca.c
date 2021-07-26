@@ -11,15 +11,14 @@ int main() {
     printf("Antes de balancear...\n");
     preOrdem(tree);
     printf("\n");
-    posOrdem(tree);
-    printf("\n\n");
 
-    balancearArvoreBinaria(&tree);
-    printf("Depois de balancear...\n");
+    remocaoPorFusao(&tree);
     preOrdem(tree);
     printf("\n");
-    posOrdem(tree);
-    printf("\n\n");
+
+    remocaoPorCopia(&tree);
+    preOrdem(tree);
+    printf("\n");
 }
 
 void makeTree(BINARY_TREE_BUSCA *tree, int value) {
@@ -181,14 +180,14 @@ void remocaoPorFusao(BINARY_TREE_BUSCA *tree) {
             if ((*tree)->left == NULL) {
                 (*tree)->right->father = (*tree)->father; 
                 (*tree) = (*tree)->right;
-            }
-            else {
+            } else {
                 aux = (*tree)->left;
                 while (aux->right)
                     aux = aux->right;
                 aux->right = (*tree)->right;
                 aux->right->father= aux;
                 aux = *tree;
+                aux->left->father = aux->father;
                 (*tree) = (*tree)->left;
             }
         free(aux);
@@ -207,8 +206,7 @@ void remocaoPorCopia(BINARY_TREE_BUSCA *tree) {
             if ((*tree)->left == NULL) {
                 (*tree)->right->father = (*tree)->father; 
                 (*tree) = (*tree)->right;
-            }
-            else {
+            } else {
                 aux = (*tree)->right;
                 while (aux->left)
                     aux = aux->left;
