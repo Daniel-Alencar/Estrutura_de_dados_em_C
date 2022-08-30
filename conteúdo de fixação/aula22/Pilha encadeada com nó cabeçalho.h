@@ -1,7 +1,9 @@
+
 typedef struct node {
     struct node * next;
     int value;
 }NODE;
+
 typedef NODE * LINKED_STACK;
 void createStack(LINKED_STACK *stack);
 int stackIsEmpty(LINKED_STACK stack);
