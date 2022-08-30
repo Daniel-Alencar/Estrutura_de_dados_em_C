@@ -46,5 +46,5 @@ int main() {
     printf("Tornando irredutível...\n");
     tornar_irredutivel(&racional);
     printf("Resultado da operação: ");
-	printf("%i/%i\n\n", racional.num, racional.den);
+		printf("%i/%i\n\n", racional.num, racional.den);
 }
